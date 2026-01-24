@@ -1,6 +1,12 @@
+com\healthcenter\service\PatientService.class
+com\healthcenter\dto\PatientDTO.class
+com\healthcenter\controller\PatientController.class
+com\healthcenter\App.class
+com\healthcenter\controller\PatientFormController$1.class
 com\healthcenter\domain\enums\Sexe.class
 com\healthcenter\domain\entities\Consultation.class
 com\healthcenter\domain\entities\Patient.class
-com\healthcenter\dto\PatientDTO.class
-com\healthcenter\App.class
+com\healthcenter\AppConfig.class
+com\healthcenter\Launcher.class
+com\healthcenter\controller\PatientFormController.class
 com\healthcenter\repository\PatientRepository.class

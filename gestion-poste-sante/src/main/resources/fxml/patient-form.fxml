@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.healthcenter.controller.PatientFormController"
+      spacing="15" style="-fx-padding: 20;">
+    
+    <!-- TITRE -->
+    <Label fx:id="titleLabel" text="Nouveau Patient" 
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    
+    <Separator/>
+    
+    <!-- FORMULAIRE -->
+    <GridPane hgap="10" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" prefWidth="120"/>
+            <ColumnConstraints minWidth="250" prefWidth="300"/>
+        </columnConstraints>
+        
+        <!-- NOM -->
+        <Label text="Nom *" GridPane.rowIndex="0" GridPane.columnIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="nomField" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                   promptText="Entrez le nom"/>
+        
+        <!-- PRÉNOM -->
+        <Label text="Prénom *" GridPane.rowIndex="1" GridPane.columnIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="prenomField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                   promptText="Entrez le prénom"/>
+        
+        <!-- DATE NAISSANCE -->
+        <Label text="Date Naissance *" GridPane.rowIndex="2" GridPane.columnIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <DatePicker fx:id="dateNaissancePicker" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                    promptText="jj/mm/aaaa"/>
+        
+        <!-- SEXE -->
+        <Label text="Sexe *" GridPane.rowIndex="3" GridPane.columnIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <HBox spacing="20" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <RadioButton fx:id="radioHomme" text="Homme" 
+                        toggleGroup="$sexeGroup" selected="true"/>
+            <RadioButton fx:id="radioFemme" text="Femme" 
+                        toggleGroup="$sexeGroup"/>
+            <RadioButton fx:id="radioAutre" text="Autre" 
+                        toggleGroup="$sexeGroup"/>
+        </HBox>
+        
+        <!-- TÉLÉPHONE -->
+        <Label text="Téléphone" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <TextField fx:id="telephoneField" GridPane.rowIndex="4" GridPane.columnIndex="1"
+                   promptText="Ex: 77 123 45 67"/>
+        
+        <!-- ADRESSE -->
+        <Label text="Adresse" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="adresseField" GridPane.rowIndex="5" GridPane.columnIndex="1"
+                   promptText="Ville, quartier"/>
+        
+        <!-- NUMÉRO CARNET -->
+        <Label text="N° Carnet" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <TextField fx:id="numeroCarnetField" GridPane.rowIndex="6" GridPane.columnIndex="1"
+                   promptText="Ex: SN-2024-003"/>
+    </GridPane>
+    
+    <!-- MESSAGE ERREUR -->
+    <Label fx:id="errorLabel" textFill="red" wrapText="true" visible="false"/>
+    
+    <!-- BOUTONS -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 10 20;"/>
+        <Button text="💾 Enregistrer" onAction="#handleSave"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20; -fx-font-weight: bold;"/>
+    </HBox>
+    
+</VBox>

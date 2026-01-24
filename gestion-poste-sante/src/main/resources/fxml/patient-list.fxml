@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+FXML = Fichier de layout (comme HTML).
+Controller = com.healthcenter.controller.PatientController (lien avec le code Java)
+-->
+<BorderPane xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.healthcenter.controller.PatientController"
+            prefHeight="600.0" prefWidth="900.0">
+    
+    <!-- HEADER (barre de recherche) -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
+            <Label text="Gestion des Patients" 
+                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" 
+                          promptText="Rechercher par nom..."
+                          prefWidth="300"/>
+                <Button text="🔍 Rechercher" 
+                       onAction="#handleSearch"
+                       style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                <Button text="↻ Tout afficher" 
+                       onAction="#handleRefresh"
+                       style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- CENTER (tableau des patients) -->
+    <center>
+        <TableView fx:id="patientTable">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="150"/>
+                <TableColumn fx:id="colDateNaissance" text="Date Naissance" prefWidth="120"/>
+                <TableColumn fx:id="colAge" text="Âge" prefWidth="50"/>
+                <TableColumn fx:id="colSexe" text="Sexe" prefWidth="80"/>
+                <TableColumn fx:id="colTelephone" text="Téléphone" prefWidth="120"/>
+                <TableColumn fx:id="colNumeroCarnet" text="N° Carnet" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+    
+    <!-- BOTTOM (boutons d'action) -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
+            <Button text="➕ Nouveau Patient" 
+                   onAction="#handleNewPatient"
+                   style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;"/>
+            <Button text="✏️ Modifier" 
+                   onAction="#handleEditPatient"
+                   style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;"/>
+            <Button text="🗑️ Supprimer" 
+                   onAction="#handleDeletePatient"
+                   style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>
