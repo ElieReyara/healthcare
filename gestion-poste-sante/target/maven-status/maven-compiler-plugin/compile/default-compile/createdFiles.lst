@@ -1,1 +1,6 @@
+com\healthcenter\domain\enums\Sexe.class
+com\healthcenter\domain\entities\Consultation.class
+com\healthcenter\domain\entities\Patient.class
+com\healthcenter\dto\PatientDTO.class
 com\healthcenter\App.class
+com\healthcenter\repository\PatientRepository.class

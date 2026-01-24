@@ -4,7 +4,7 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- IDENTITÉ DU PROJET -->
+    <!-- IDENTITÉ PROJET -->
     <groupId>com.healthcenter</groupId>
     <artifactId>gestion-poste-sante</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -12,63 +12,71 @@
 
     <name>Gestion Poste de Santé</name>
 
-    <!-- PROPRIÉTÉS (versions centralisées) -->
+    <!-- PARENT SPRING BOOT (gère les versions automatiquement) -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.1</version>  <!-- Version stable 2026 -->
+    </parent>
+
+    <!-- PROPRIÉTÉS -->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>21</javafx.version>
-        <hibernate.version>6.4.1.Final</hibernate.version>
     </properties>
 
-    <!-- DÉPENDANCES (libs qu'on utilise) -->
+    <!-- DÉPENDANCES -->
     <dependencies>
-        <!-- JavaFX (UI Desktop) -->
+        
+        <!-- SPRING DATA JPA (inclut Hibernate) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        
+        <!-- PostgreSQL Driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- JavaFX Controls -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        
+        <!-- JavaFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-
-        <!-- PostgreSQL Driver (connexion DB) -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.1</version>
-        </dependency>
-
-        <!-- Hibernate (ORM JPA) -->
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
+        
         <!-- JUnit 5 (Tests) -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
     </dependencies>
 
-    <!-- BUILD CONFIG (comment compiler/packager) -->
+    <!-- BUILD -->
     <build>
         <plugins>
-            <!-- Compiler Plugin -->
+            
+            <!-- Spring Boot Plugin -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <!-- JavaFX Plugin (pour lancer l'app) -->
+            
+            <!-- JavaFX Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -77,6 +85,7 @@
                     <mainClass>com.healthcenter.App</mainClass>
                 </configuration>
             </plugin>
+            
         </plugins>
     </build>
 </project>
