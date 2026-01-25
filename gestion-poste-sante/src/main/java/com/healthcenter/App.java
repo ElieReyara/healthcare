@@ -33,9 +33,9 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            // Charger FXML
+            // Charger FXML du menu principal
             FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/fxml/patient-list.fxml")
+                getClass().getResource("/fxml/main-menu.fxml")
             );
             
             // Spring gère l'injection dans les controllers
@@ -43,8 +43,8 @@ public class App extends Application {
             
             Parent root = loader.load();
             
-            Scene scene = new Scene(root, 900, 600);
-            primaryStage.setTitle("Gestion Poste de Santé - Patients");
+            Scene scene = new Scene(root, 1200, 750);
+            primaryStage.setTitle("🏥 Gestion Poste de Santé");
             primaryStage.setScene(scene);
             primaryStage.show();
             

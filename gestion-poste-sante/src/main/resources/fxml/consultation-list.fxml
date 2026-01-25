@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+FXML liste Consultations (sans header - intégré dans menu principal).
+Controller : com.healthcenter.controller.ConsultationController
+-->
+<VBox xmlns="http://javafx.com/javafx/17" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.healthcenter.controller.ConsultationController"
+      spacing="10">
+    
+    <!-- Barre de filtres et recherche -->
+    <HBox spacing="10" style="-fx-background-color: #ecf0f1; -fx-padding: 15;" alignment="CENTER_LEFT">
+        <Label text="Filtrer par patient :" 
+               style="-fx-font-weight: bold;"/>
+        
+        <ComboBox fx:id="patientFilter" 
+                 prefWidth="200"
+                 promptText="Sélectionner patient"
+                 onAction="#handleFilterByPatient"/>
+        
+        <Separator orientation="VERTICAL" prefHeight="25"/>
+        
+        <TextField fx:id="searchField" 
+                  promptText="Rechercher..."
+                  prefWidth="250"/>
+        
+        <Button text="🔍 Rechercher" 
+               style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 15;"/>
+        
+        <Button text="🔄 Actualiser" 
+               onAction="#handleRefresh"
+               style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 15;"/>
+    </HBox>
+    
+    <!-- Tableau des consultations -->
+    <TableView fx:id="consultationTable" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets left="10" right="10" bottom="10"/>
+        </VBox.margin>
+        <columns>
+            <TableColumn fx:id="colId" 
+                        text="ID" 
+                        prefWidth="60" 
+                        resizable="false"
+                        style="-fx-alignment: CENTER;"/>
+            
+            <TableColumn fx:id="colPatient" 
+                        text="Patient" 
+                        prefWidth="150"/>
+            
+            <TableColumn fx:id="colDate" 
+                        text="Date Consultation" 
+                        prefWidth="150"
+                        style="-fx-alignment: CENTER;"/>
+            
+            <TableColumn fx:id="colSymptomes" 
+                        text="Symptômes" 
+                        prefWidth="250"/>
+            
+            <TableColumn fx:id="colDiagnostic" 
+                        text="Diagnostic" 
+                        prefWidth="250"/>
+        </columns>
+        
+        <!-- Placeholder si table vide -->
+        <placeholder>
+            <VBox alignment="CENTER" spacing="10">
+                <Label text="📋 Aucune consultation enregistrée" 
+                       style="-fx-font-size: 16px; -fx-text-fill: #95a5a6;"/>
+                <Label text="Cliquez sur 'Nouvelle Consultation' pour commencer" 
+                       style="-fx-font-size: 12px; -fx-text-fill: #bdc3c7;"/>
+            </VBox>
+        </placeholder>
+    </TableView>
+    
+    <!-- Boutons d'action -->
+    <HBox spacing="10" 
+          alignment="CENTER_RIGHT" 
+          style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
+        
+        <Button text="➕ Nouvelle Consultation" 
+               onAction="#handleNouveau"
+               style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-font-weight: bold;"
+               defaultButton="true"/>
+        
+        <Button text="✏️ Modifier" 
+               onAction="#handleModifier"
+               style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+        
+        <Button text="🗑️ Supprimer" 
+               onAction="#handleSupprimer"
+               style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+    </HBox>
+    
+</VBox>
