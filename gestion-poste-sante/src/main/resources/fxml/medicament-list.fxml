@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthcenter.controller.MedicamentController"
+            prefHeight="650.0" prefWidth="1100.0">
+    
+    <!-- TOP = Barre de filtres et recherche -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 15;">
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Forme :" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="formeFilter" prefWidth="150" onAction="#handleFilterByForme"/>
+                
+                <Label text="Recherche :" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="searchField" promptText="Nom du médicament..." prefWidth="250"/>
+                <Button text="🔍 Rechercher" onAction="#handleSearch" 
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                <Button text="🔄 Actualiser" onAction="#handleRefresh" 
+                        style="-fx-background-color: #607D8B; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- CENTER = TableView -->
+    <center>
+        <TableView fx:id="medicamentTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60" sortable="true"/>
+                <TableColumn fx:id="colNom" text="Nom" prefWidth="200" sortable="true"/>
+                <TableColumn fx:id="colDosage" text="Dosage" prefWidth="100" sortable="true"/>
+                <TableColumn fx:id="colForme" text="Forme" prefWidth="120" sortable="true"/>
+                <TableColumn fx:id="colPrix" text="Prix (FCFA)" prefWidth="100" sortable="true"/>
+                <TableColumn fx:id="colStock" text="Stock" prefWidth="80" sortable="true"/>
+                <TableColumn fx:id="colSeuilAlerte" text="Seuil" prefWidth="80" sortable="true"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="100" sortable="false"/>
+            </columns>
+            
+            <placeholder>
+                <Label text="Aucun médicament enregistré" style="-fx-text-fill: gray;"/>
+            </placeholder>
+        </TableView>
+    </center>
+    
+    <!-- BOTTOM = Boutons d'action -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color: #f9f9f9; -fx-padding: 15;">
+            <Button text="➕ Nouveau" onAction="#handleNouveau" 
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;"/>
+            
+            <Button text="✏️ Modifier" onAction="#handleModifier" 
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;"/>
+            
+            <Button text="📦 Ajuster Stock" onAction="#handleAjusterStock" 
+                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;"/>
+            
+            <Button text="📊 Historique" onAction="#handleVoirHistorique" 
+                    style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;"/>
+            
+            <Button text="🗑️ Supprimer" onAction="#handleSupprimer" 
+                    style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -28,8 +28,8 @@ Controller : com.healthcenter.controller.MainMenuController
                 <Menu text="Modules" style="-fx-text-fill: white;">
                     <MenuItem text="👥 Patients" onAction="#handlePatients"/>
                     <MenuItem text="🏥 Consultations" onAction="#handleConsultations"/>
+                    <MenuItem text="💊 Médicaments" onAction="#handleMedicaments"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="💊 Médicaments (À venir)" disable="true"/>
                     <MenuItem text="👨‍⚕️ Personnel (À venir)" disable="true"/>
                     <MenuItem text="💉 Vaccinations (À venir)" disable="true"/>
                 </Menu>
@@ -70,8 +70,8 @@ Controller : com.healthcenter.controller.MainMenuController
                                style="-fx-font-size: 14px;"/>
                         <Label text="✅ Consultations - Enregistrement des consultations médicales" 
                                style="-fx-font-size: 14px;"/>
-                        <Label text="⏳ Médicaments - Gestion du stock (À venir)" 
-                               style="-fx-font-size: 14px; -fx-text-fill: #95a5a6;"/>
+                        <Label text="✅ Médicaments - Gestion du stock + alertes" 
+                               style="-fx-font-size: 14px;"/>
                         <Label text="⏳ Personnel - Gestion du personnel médical (À venir)" 
                                style="-fx-font-size: 14px; -fx-text-fill: #95a5a6;"/>
                     </VBox>

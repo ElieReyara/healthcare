@@ -5,11 +5,11 @@
 ```markdown
 # CONTEXT – Gestion Poste de Santé Communautaire
 
-**Dernière mise à jour :** 2026-01-25 21:30  
-**Version :** 1.0.0  
-**Modules complétés :** Patient (100%)  
+**Dernière mise à jour :** 2026-01-26 18:00  
+**Version :** 2.0.0  
+**Modules complétés :** Patient (100%), Consultations (100%), Médicaments + Stock (100%)  
 **Module en cours :** -  
-**Modules restants :** Consultations, Médicaments, Vaccinations, Personnel, Statistiques, Rapports, Stock
+**Modules restants :** Vaccinations, Personnel, Statistiques, Rapports
 
 ---
 
@@ -351,14 +351,14 @@ public class MouvementStock {
 #### Module Consultations (Priorité 1)
 
 **Tâches :**
-- [ ] Entity Consultation + Maladie
-- [ ] ConsultationRepository
-- [ ] ConsultationDTO
-- [ ] ConsultationService (CRUD + validation)
-- [ ] ConsultationController + FXML liste
-- [ ] Formulaire création consultation
-- [ ] Relation N-N avec Medicaments
-- [ ] Tests ConsultationService
+- [x] Entity Consultation + Maladie
+- [x] ConsultationRepository
+- [x] ConsultationDTO
+- [x] ConsultationService (CRUD + validation)
+- [x] ConsultationController + FXML liste
+- [x] Formulaire création consultation
+- [x] Relation N-N avec Medicaments
+- [x] Tests ConsultationService
 
 **Fonctionnalités :**
 → Créer consultation pour patient

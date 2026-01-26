@@ -47,6 +47,14 @@ public class MainMenuController {
     }
     
     /**
+     * Handler Menu : Médicaments
+     */
+    @FXML
+    private void handleMedicaments() {
+        chargerMedicaments();
+    }
+    
+    /**
      * Handler Menu : Quitter
      */
     @FXML
@@ -66,11 +74,12 @@ public class MainMenuController {
         alert.setHeaderText("Gestion Poste de Santé");
         alert.setContentText(
             "Application de gestion pour poste de santé\n\n" +
-            "Version 1.0\n" +
+            "Version 2.0\n" +
             "© 2026 - Tous droits réservés\n\n" +
             "Modules disponibles :\n" +
             "✅ Patients\n" +
-            "✅ Consultations"
+            "✅ Consultations\n" +
+            "✅ Médicaments + Stock"
         );
         alert.showAndWait();
     }
@@ -89,6 +98,13 @@ public class MainMenuController {
      */
     private void chargerConsultations() {
         chargerVue("/fxml/consultation-list.fxml", "Consultations");
+    }
+    
+    /**
+     * Charge la vue Médicaments dans le contentPane.
+     */
+    private void chargerMedicaments() {
+        chargerVue("/fxml/medicament-list.fxml", "Médicaments");
     }
     
     /**

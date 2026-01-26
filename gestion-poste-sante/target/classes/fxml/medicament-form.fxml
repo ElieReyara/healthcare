@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthcenter.controller.MedicamentFormController"
+      spacing="15" style="-fx-padding: 25; -fx-background-color: white;">
+    
+    <!-- Titre -->
+    <Label text="Informations Médicament" 
+           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2196F3;"/>
+    
+    <Separator/>
+    
+    <!-- Formulaire GridPane -->
+    <GridPane hgap="15" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" prefWidth="120"/>
+            <ColumnConstraints minWidth="300" prefWidth="350"/>
+        </columnConstraints>
+        
+        <!-- Ligne 0 : Nom -->
+        <Label text="Nom * :" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="nomField" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+                   promptText="Ex: Paracétamol"/>
+        
+        <!-- Ligne 1 : Dosage -->
+        <Label text="Dosage * :" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="dosageField" GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                   promptText="Ex: 500mg"/>
+        
+        <!-- Ligne 2 : Forme -->
+        <Label text="Forme * :" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+               style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="formeCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" 
+                  prefWidth="350" promptText="Sélectionnez une forme"/>
+        
+        <!-- Ligne 3 : Prix -->
+        <Label text="Prix (FCFA) * :" GridPane.columnIndex="0" GridPane.rowIndex="3" 
+               style="-fx-font-weight: bold;"/>
+        <TextField fx:id="prixField" GridPane.columnIndex="1" GridPane.rowIndex="3" 
+                   promptText="Ex: 1500"/>
+        
+        <!-- Ligne 4 : Stock Actuel -->
+        <Label text="Stock Actuel :" GridPane.columnIndex="0" GridPane.rowIndex="4" 
+               style="-fx-font-weight: bold;"/>
+        <Spinner fx:id="stockSpinner" GridPane.columnIndex="1" GridPane.rowIndex="4" 
+                 prefWidth="150" editable="true"/>
+        
+        <!-- Ligne 5 : Seuil d'Alerte -->
+        <Label text="Seuil d'Alerte :" GridPane.columnIndex="0" GridPane.rowIndex="5" 
+               style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <Spinner fx:id="seuilSpinner" prefWidth="150" editable="true"/>
+            <Label text="(0 = pas d'alerte)" style="-fx-text-fill: gray; -fx-font-style: italic;"/>
+        </HBox>
+    </GridPane>
+    
+    <!-- Message d'erreur -->
+    <Label fx:id="errorLabel" 
+           style="-fx-text-fill: red; -fx-font-weight: bold; -fx-padding: 10;" 
+           visible="false" managed="false" wrapText="true"/>
+    
+    <Separator/>
+    
+    <!-- Boutons -->
+    <HBox spacing="15" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel" 
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 25;"/>
+        
+        <Button text="Enregistrer" onAction="#handleSave" 
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 25;" 
+                defaultButton="true"/>
+    </HBox>
+    
+    <!-- Note -->
+    <Label text="* Champs obligatoires" 
+           style="-fx-text-fill: gray; -fx-font-size: 11px; -fx-font-style: italic;"/>
+</VBox>

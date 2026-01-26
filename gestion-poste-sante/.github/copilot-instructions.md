@@ -422,7 +422,7 @@ Après génération, vérifie :
 
 
 ---
-## README.MD
+## README.MD MISE À JOUR OBLIGATOIRE
 **Chemin :** `README.md` (racine projet)
 
 - Créer ou mettre à jour README.md après chaque module
