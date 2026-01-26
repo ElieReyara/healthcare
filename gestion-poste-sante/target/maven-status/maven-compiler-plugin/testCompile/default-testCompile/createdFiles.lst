@@ -1,5 +1,7 @@
 com\healthcenter\service\PersonnelServiceTest.class
+com\healthcenter\service\RapportServiceTest.class
+com\healthcenter\service\UtilisateurServiceTest.class
 com\healthcenter\service\MedicamentServiceTest.class
 com\healthcenter\service\StatistiqueServiceTest.class
+com\healthcenter\service\BackupServiceTest.class
 com\healthcenter\service\VaccinationServiceTest.class
-com\healthcenter\service\RapportServiceTest.class

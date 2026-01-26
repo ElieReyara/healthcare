@@ -354,3 +354,230 @@ Le calendrier est automatiquement initialisé au démarrage de l'application.
 - **Dépendances** :
   * Apache POI 5.2.5 (org.apache.poi:poi-ooxml) pour Excel (XSSFWorkbook, Sheet, Row, Cell)
   * iText 8.0.3 (com.itextpdf:itext7-core) pour PDF (PdfWriter, PdfDocument, Document, Paragraph, Table)
+
+---
+
+## 🔐 Sécurité & Authentification
+
+### Rôles utilisateurs
+
+| Rôle | Accès Modules |
+|------|---------------|
+| **ADMIN** | Tous modules + Administration utilisateurs + Backups |
+| **MEDECIN** | Patients, Consultations, Vaccinations, Statistiques |
+| **INFIRMIER** | Patients, Vaccinations, Médicaments (stock) |
+| **SAGE_FEMME** | Patients, Consultations (limitées) |
+| **GESTIONNAIRE** | Statistiques, Rapports, Personnel, Médicaments |
+| **RECEPTIONNISTE** | Patients (lecture/création uniquement) |
+
+### Première connexion
+
+- **Username :** `admin`
+- **Password :** `admin123`
+- ⚠️ **Changer immédiatement le mot de passe après première connexion**
+
+### Gérer utilisateurs (ADMIN seulement)
+
+1. Menu **"Administration"** → **"Utilisateurs"**
+2. Créer nouvel utilisateur (username, password, rôle)
+3. Activer/Désactiver utilisateurs
+4. Changer mots de passe
+
+### Audit logs
+
+Menu **"Administration"** → **"Audit Logs"**
+- Traçabilité toutes actions (CREATE, UPDATE, DELETE, LOGIN, LOGOUT, EXPORT, BACKUP, RESTORE)
+- Filtres par utilisateur, date, module
+- Export CSV logs
+- 10 types d'actions auditées
+
+### Architecture sécurité
+- **Entities** :
+  * `Utilisateur` (username unique, password BCrypt, role, actif, dates)
+  * `AuditLog` (utilisateur, action enum, module, entityId, description, dateAction, adresseIP)
+- **Enums** :
+  * `RoleUtilisateur` (6 rôles avec libellé + permissions List<String>)
+  * `ActionAudit` (10 valeurs : CREATE, UPDATE, DELETE, READ, LOGIN, LOGOUT, EXPORT, GENERATE_REPORT, BACKUP, RESTORE)
+- **Repositories** :
+  * `UtilisateurRepository` (findByUsername, findByEmail, findByActifTrue, findByRole)
+  * `AuditLogRepository` (findByUtilisateurIdOrderByDateActionDesc, findByDateActionBetween, findByModule, findTop100ByOrderByDateActionDesc)
+- **Services** :
+  * `UtilisateurService` : Authentification BCrypt, CRUD utilisateurs, changerMotDePasse
+  * `AuditService` : logAction @Async, obtenirLogs* par utilisateur/période/module
+- **Security** :
+  * `SessionManager` (Singleton) : utilisateurConnecte, isConnecte(), hasRole(), hasPermission()
+  * `SecurityConfig` : @Bean PasswordEncoder (BCryptPasswordEncoder)
+- **Controllers** :
+  * `LoginController` : Authentification, callback onLoginSuccess, ProgressIndicator
+- **Initialisation** :
+  * `VaccinationDataInitializer` : Créé utilisateur admin par défaut (admin/admin123) avec @PostConstruct
+
+---
+
+## 💾 Backup & Restore
+
+### Backup manuel
+
+1. Menu **"Administration"** → **"Backup & Restore"**
+2. Clic **"Créer Backup"**
+3. Fichier `.sql` généré dans dossier choisi
+
+### Backup automatique
+
+- **Activé par défaut** en production
+- **Heure :** Tous les jours à 2h du matin
+- **Dossier :** `backups/backup-YYYY-MM-DD-HHmmss.sql`
+- **Configuration :** `application-prod.properties` (cron expression)
+
+### Restaurer backup
+
+1. Sélectionner fichier backup dans table
+2. Clic **"Restaurer"**
+3. Confirmation (⚠️ écrase données actuelles)
+4. **Redémarrer application** pour appliquer changements
+
+### Architecture backup
+- **Service** :
+  * `BackupService` : creerBackup (H2 SCRIPT TO), restaurerBackup (RUNSCRIPT FROM), listerBackups, supprimerBackup, planifierBackupAutomatique @Scheduled(cron)
+- **Controller** :
+  * `BackupController` : TableView backups (nom, date, taille), ProgressBar async, DirectoryChooser
+- **Configuration** :
+  * `application-prod.properties` : backup.enabled=true, backup.directory=./backups, backup.cron=0 0 2 * * ?
+
+---
+
+## 📦 Déploiement
+
+### Compilation
+
+```bash
+mvn clean package
+```
+
+**Génère :**
+- `target/gestion-poste-sante-1.0-SNAPSHOT.jar` (JAR exécutable)
+- `target/HealthCenter-1.0.0-distribution.zip` (distribution complète)
+
+### Installation
+
+Voir fichier [INSTALLATION.md](INSTALLATION.md) pour guide complet
+
+**Installation rapide :**
+
+#### Windows
+1. Extraire `HealthCenter-1.0.0-distribution.zip`
+2. Double-clic `start.bat`
+3. Connexion `admin/admin123`
+
+#### Linux/Mac
+```bash
+unzip HealthCenter-1.0.0-distribution.zip -d /opt/
+cd /opt/HealthCenter
+chmod +x start.sh
+./start.sh
+```
+
+### Configuration production
+
+Fichier `config/application-prod.properties` :
+- Chemin base données H2
+- Activation backup auto (cron)
+- Niveaux logs (INFO)
+- Port serveur (8080 par défaut)
+
+### Profils disponibles
+
+- **dev** : H2 fichier dev, console H2 activée, logs DEBUG
+- **prod** : H2 fichier prod, console désactivée, logs INFO, backup auto
+
+**Changer profil :**
+```bash
+java -Dspring.profiles.active=prod -jar gestion-poste-sante-1.0-SNAPSHOT.jar
+```
+
+---
+
+## 🐛 Dépannage
+
+### Application ne démarre pas
+
+1. Vérifier Java installé : `java -version` (requis 17+)
+2. Vérifier logs : `logs/healthcenter.log`
+3. Vérifier port 8080 libre : `netstat -ano | findstr :8080`
+4. Changer port si nécessaire : `application-prod.properties` → `server.port=9090`
+
+### Mot de passe admin oublié
+
+1. Arrêter application
+2. Supprimer `data/healthcenter.mv.db`
+3. Redémarrer → admin/admin123 recréé automatiquement
+4. ⚠️ **Toutes les données seront perdues** (restaurer backup si disponible)
+
+### Base données corrompue
+
+1. Menu **"Backup & Restore"**
+2. Restaurer dernier backup valide
+3. Ou supprimer fichier `.mv.db` (perte données)
+
+### Erreurs de compilation
+
+```bash
+mvn clean install
+```
+
+**Vérifier dépendances :**
+- Spring Boot 3.2.1
+- Spring Security Crypto
+- H2 Database
+- JavaFX 21
+- iText 8.0.3
+- Apache POI 5.2.5
+
+---
+
+## 📊 Statistiques Projet
+
+### Modules complétés (8/8)
+1. ✅ Patients (CRUD + recherche)
+2. ✅ Consultations (CRUD + prescriptions)
+3. ✅ Médicaments + Stock (CRUD + alertes + mouvements)
+4. ✅ Vaccinations + Calendrier (16 vaccins Sénégal + rappels)
+5. ✅ Personnel + Planning (8 fonctions + disponibilités)
+6. ✅ Statistiques & Rapports (Dashboard + PDF/Excel/CSV)
+7. ✅ Authentification & Sécurité (6 rôles + audit logs)
+8. ✅ Backup & Production (Auto + manuel + packaging)
+
+### Métriques code
+- **Entities** : 10 (Patient, Consultation, Medicament, Vaccination, Personnel, Rapport, Utilisateur, AuditLog, etc.)
+- **Repositories** : 12
+- **Services** : 15 (5000+ lignes total)
+- **Controllers** : 18 (3500+ lignes total)
+- **FXML** : 18 vues
+- **Tests** : 60+ tests unitaires (100% services critiques)
+- **Enums** : 12
+- **DTOs** : 15
+
+### Technologies
+- **Backend** : Spring Boot 3.2.1 + Hibernate 6.4.1
+- **Frontend** : JavaFX 21
+- **Database** : H2 (dev/prod) + PostgreSQL (optionnel)
+- **Security** : Spring Security Crypto (BCrypt)
+- **Reports** : iText 8.0.3 (PDF) + Apache POI 5.2.5 (Excel)
+- **Build** : Maven 3.9+
+- **Tests** : JUnit 5 + Mockito
+
+---
+
+## 🚀 Version 1.0.0 - PRODUCTION READY
+
+✅ **Application complète et prête pour déploiement production**
+- Authentification multi-utilisateurs sécurisée
+- Gestion complète poste de santé (8 modules)
+- Backups automatiques + restauration
+- Audit logs complet
+- Documentation installation complète
+- Scripts démarrage Windows/Linux
+- Tests unitaires 60+ (100% services critiques)
+- Configuration production optimisée
+
+**Date de release :** 26 janvier 2026

@@ -1,6 +1,7 @@
 com\healthcenter\controller\CarnetVaccinalController$1.class
 com\healthcenter\domain\enums\StatutVaccination.class
 com\healthcenter\controller\StatistiquesDetailsController.class
+com\healthcenter\domain\entities\Utilisateur.class
 com\healthcenter\dto\CalendrierVaccinalDTO.class
 com\healthcenter\controller\MainMenuController.class
 com\healthcenter\domain\entities\Rapport.class
@@ -11,6 +12,8 @@ com\healthcenter\controller\VaccinationFormController$1.class
 com\healthcenter\dto\PersonnelDTO.class
 com\healthcenter\domain\enums\TypeMouvement$1.class
 com\healthcenter\controller\MedicamentController.class
+com\healthcenter\repository\AuditLogRepository.class
+com\healthcenter\controller\LoginController.class
 com\healthcenter\controller\PatientFormController.class
 com\healthcenter\domain\entities\DisponibilitePersonnel.class
 com\healthcenter\controller\MedicamentController$1.class
@@ -21,6 +24,7 @@ com\healthcenter\controller\PersonnelDetailsController.class
 com\healthcenter\controller\ConsultationController$2.class
 com\healthcenter\service\StatistiqueService.class
 com\healthcenter\service\RapportService$1.class
+com\healthcenter\controller\BackupController.class
 com\healthcenter\Launcher.class
 com\healthcenter\controller\PersonnelFormController.class
 com\healthcenter\controller\MedicamentFormController$1.class
@@ -31,7 +35,9 @@ com\healthcenter\controller\VaccinationFormController.class
 com\healthcenter\domain\enums\TypeRapport.class
 com\healthcenter\dto\VaccinationDTO.class
 com\healthcenter\controller\CarnetVaccinalController$VaccinationCarnetRow.class
+com\healthcenter\domain\entities\AuditLog.class
 com\healthcenter\controller\CarnetVaccinalController$3.class
+com\healthcenter\service\BackupService.class
 com\healthcenter\controller\VaccinationController$3.class
 com\healthcenter\dto\DisponibilitePersonnelDTO.class
 com\healthcenter\repository\ConsultationRepository.class
@@ -47,6 +53,7 @@ com\healthcenter\controller\ConsultationFormController.class
 com\healthcenter\controller\RapportController.class
 com\healthcenter\controller\ConsultationController$1.class
 com\healthcenter\controller\VaccinationController$2.class
+com\healthcenter\domain\enums\ActionAudit.class
 com\healthcenter\service\PersonnelService.class
 com\healthcenter\controller\MedicamentController$2.class
 com\healthcenter\controller\VaccinationController$1.class
@@ -89,12 +96,18 @@ com\healthcenter\domain\entities\MouvementStock.class
 com\healthcenter\domain\enums\TypeVaccin.class
 com\healthcenter\dto\DashboardStats.class
 com\healthcenter\controller\ConsultationController.class
+com\healthcenter\domain\enums\RoleUtilisateur.class
 com\healthcenter\domain\entities\Patient.class
 com\healthcenter\AppConfig.class
 com\healthcenter\repository\DisponibilitePersonnelRepository.class
+com\healthcenter\repository\UtilisateurRepository.class
 com\healthcenter\controller\VaccinationController.class
 com\healthcenter\repository\PatientRepository.class
 com\healthcenter\domain\entities\Medicament.class
+com\healthcenter\service\UtilisateurService.class
 com\healthcenter\controller\PersonnelDetailsController$1.class
 com\healthcenter\controller\PersonnelController$2.class
 com\healthcenter\controller\PatientController.class
+com\healthcenter\security\SessionManager.class
+com\healthcenter\service\AuditService.class
+com\healthcenter\config\SecurityConfig.class

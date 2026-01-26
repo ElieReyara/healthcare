@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.healthcenter.controller.BackupController"
+            prefWidth="800" prefHeight="600">
+    
+    <top>
+        <VBox style="-fx-background-color: #2196F3; -fx-padding: 20;">
+            <Label text="💾 Backup &amp; Restauration" textFill="white">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+            <Label text="Gestion des sauvegardes de la base de données" textFill="white">
+                <font>
+                    <Font size="12"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Barre d'outils -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="btnCreerBackup" text="📥 Créer Backup" onAction="#handleCreerBackup"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button fx:id="btnRestaurer" text="📤 Restaurer" onAction="#handleRestaurer"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                <Button fx:id="btnSupprimer" text="🗑️ Supprimer" onAction="#handleSupprimer"
+                        style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="statusLabel" text="0 backup(s) disponible(s)"/>
+            </HBox>
+            
+            <!-- Barre de progression -->
+            <ProgressBar fx:id="progressBar" prefWidth="Infinity" visible="false"/>
+            
+            <!-- Table des backups -->
+            <TableView fx:id="backupsTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colNom" text="Nom du fichier" prefWidth="350"/>
+                    <TableColumn fx:id="colDate" text="Date de création" prefWidth="200"/>
+                    <TableColumn fx:id="colTaille" text="Taille" prefWidth="120"/>
+                </columns>
+                <placeholder>
+                    <Label text="Aucun backup disponible"/>
+                </placeholder>
+            </TableView>
+            
+            <!-- Informations -->
+            <VBox spacing="5" style="-fx-background-color: #fff3cd; -fx-padding: 10; -fx-border-color: #ffc107; -fx-border-width: 1;">
+                <Label text="ℹ️ Informations importantes:" style="-fx-font-weight: bold;"/>
+                <Label text="• Les backups sont créés au format SQL et peuvent être restaurés à tout moment" wrapText="true"/>
+                <Label text="• La restauration écrase toutes les données actuelles" wrapText="true"/>
+                <Label text="• Un redémarrage de l'application est requis après une restauration" wrapText="true"/>
+                <Label text="• Les backups automatiques sont créés tous les jours à 2h du matin" wrapText="true"/>
+            </VBox>
+        </VBox>
+    </center>
+    
+</BorderPane>

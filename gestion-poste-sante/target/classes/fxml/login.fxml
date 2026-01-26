@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.healthcenter.controller.LoginController"
+            prefWidth="400" prefHeight="350"
+            style="-fx-background-color: #f5f5f5;">
+    
+    <top>
+        <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #2196F3; -fx-padding: 30;">
+            <Label text="🏥 Poste de Santé" textFill="white">
+                <font>
+                    <Font name="System Bold" size="24"/>
+                </font>
+            </Label>
+            <Label text="Système de Gestion Communautaire" textFill="white">
+                <font>
+                    <Font size="12"/>
+                </font>
+            </Label>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 30;">
+            
+            <!-- Titre -->
+            <Label text="Connexion">
+                <font>
+                    <Font name="System Bold" size="18"/>
+                </font>
+            </Label>
+            
+            <!-- Champ username -->
+            <VBox spacing="5">
+                <Label text="Nom d'utilisateur:"/>
+                <TextField fx:id="usernameField" promptText="Username" prefWidth="300"/>
+            </VBox>
+            
+            <!-- Champ password -->
+            <VBox spacing="5">
+                <Label text="Mot de passe:"/>
+                <PasswordField fx:id="passwordField" promptText="Password" prefWidth="300"/>
+            </VBox>
+            
+            <!-- Message d'erreur -->
+            <Label fx:id="errorLabel" text="Erreur" textFill="red" visible="false"/>
+            
+            <!-- Indicateur de chargement -->
+            <ProgressIndicator fx:id="loadingIndicator" visible="false" maxWidth="30" maxHeight="30"/>
+            
+            <!-- Boutons -->
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="btnConnecter" text="Se connecter" onAction="#handleConnecter" 
+                        prefWidth="140" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                <Button text="Annuler" onAction="#handleAnnuler" 
+                        prefWidth="140" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+            </HBox>
+            
+        </VBox>
+    </center>
+    
+    <bottom>
+        <VBox alignment="CENTER" style="-fx-padding: 10; -fx-background-color: #e0e0e0;">
+            <Label text="Version 1.0.0" textFill="#666">
+                <font>
+                    <Font size="10"/>
+                </font>
+            </Label>
+        </VBox>
+    </bottom>
+    
+</BorderPane>

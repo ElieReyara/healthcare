@@ -97,6 +97,19 @@
             <version>8.0.3</version>
         </dependency>
 
+        <!-- Spring Security (pour BCrypt uniquement, pas d'autoconfiguration) -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- H2 Database (pour développement et production standalone) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         
     </dependencies>
 
