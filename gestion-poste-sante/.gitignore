@@ -1,0 +1,278 @@
+# Gestion Poste de Santé - .gitignore
+
+# ===============================
+# FICHIERS SENSIBLES - SÉCURITÉ
+# ===============================
+
+# NE JAMAIS COMMITER CES FICHIERS !
+CREDENTIALS.md
+credentials.txt
+passwords.txt
+*.key
+*.pem
+*.p12
+*.jks
+
+# Fichiers de configuration avec mots de passe
+application-local.properties
+application-secret.properties
+secret.properties
+
+# Base de données H2 avec données réelles
+data/*.mv.db
+data/*.trace.db
+data/*.lock.db
+
+# Backups de production
+backups/*.sql
+backups/*.zip
+backup-*.sql
+
+# Logs avec données sensibles
+logs/*.log
+*.log
+
+# ===============================
+# BUILD & COMPILATION
+# ===============================
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ===============================
+# IDE & ÉDITEURS
+# ===============================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+.metadata/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ===============================
+# JAVA
+# ===============================
+
+# Compiled class files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Exception: Keep Maven wrapper JAR
+!.mvn/wrapper/maven-wrapper.jar
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
+
+# ===============================
+# JAVAFX
+# ===============================
+
+# JavaFX cache
+.cache/
+
+# ===============================
+# SYSTÈME D'EXPLOITATION
+# ===============================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ===============================
+# TEMPORAIRES
+# ===============================
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.swp
+*.swo
+*~.nib
+*.bak
+*.old
+
+# Répertoires temporaires
+tmp/
+temp/
+cache/
+
+# ===============================
+# TESTS
+# ===============================
+
+# Rapports de tests
+target/surefire-reports/
+target/failsafe-reports/
+target/test-results/
+
+# Couverture de code
+target/site/jacoco/
+*.exec
+
+# ===============================
+# DOCUMENTATION
+# ===============================
+
+# Documentation générée
+target/site/
+target/apidocs/
+
+# Exception: Garder la documentation source
+!docs/
+!*.md
+
+# ===============================
+# BASE DE DONNÉES
+# ===============================
+
+# H2 Database (development)
+# Commenter ces lignes pour garder la DB de dev en Git
+data/healthcenter-dev.mv.db
+data/healthcenter-dev.trace.db
+
+# H2 Database (production) - NE JAMAIS COMMITER
+data/healthcenter.mv.db
+data/healthcenter.trace.db
+data/*.mv.db
+data/*.trace.db
+
+# ===============================
+# RAPPORTS & EXPORTS
+# ===============================
+
+# Rapports PDF générés
+rapports/*.pdf
+rapport-*.pdf
+
+# Exports de données
+exports/
+export-*.csv
+export-*.xlsx
+
+# ===============================
+# DÉPLOIEMENT
+# ===============================
+
+# Fichiers de déploiement spécifiques
+deploy/
+dist/
+release/
+
+# Archives de distribution
+*.tar.gz
+*.zip
+*-distribution.zip
+
+# ===============================
+# SPRING BOOT
+# ===============================
+
+# Spring Boot DevTools
+.springBeans
+
+# Spring Boot Actuator sensitive data
+actuator/
+
+# ===============================
+# AUTRES
+# ===============================
+
+# Node modules (si frontend JS ajouté)
+node_modules/
+npm-debug.log*
+
+# Python (si scripts Python ajoutés)
+__pycache__/
+*.py[cod]
+venv/
+
+# ===============================
+# EXCEPTIONS - FICHIERS À GARDER
+# ===============================
+
+# Configuration par défaut (sans secrets)
+!src/main/resources/application.properties
+!src/main/resources/application-dev.properties
+!src/main/resources/application-prod.properties
+
+# Scripts de démarrage
+!scripts/start.bat
+!scripts/start.sh
+
+# Documentation
+!README.md
+!INSTALLATION.md
+!DEPLOIEMENT.md
+!CHANGELOG.md
+!CONTEXT.md
+!docs/*.md
+
+# Fichiers FXML
+!src/main/resources/fxml/*.fxml
+
+# Fichiers de test
+!src/test/**/*.java
+
+# POM
+!pom.xml
