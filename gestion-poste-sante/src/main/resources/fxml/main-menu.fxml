@@ -29,9 +29,9 @@ Controller : com.healthcenter.controller.MainMenuController
                     <MenuItem text="👥 Patients" onAction="#handlePatients"/>
                     <MenuItem text="🏥 Consultations" onAction="#handleConsultations"/>
                     <MenuItem text="💊 Médicaments" onAction="#handleMedicaments"/>
+                    <MenuItem text="💉 Vaccinations" onAction="#handleVaccinations"/>
                     <SeparatorMenuItem/>
                     <MenuItem text="👨‍⚕️ Personnel (À venir)" disable="true"/>
-                    <MenuItem text="💉 Vaccinations (À venir)" disable="true"/>
                 </Menu>
                 
                 <!-- Menu Aide -->
@@ -71,6 +71,8 @@ Controller : com.healthcenter.controller.MainMenuController
                         <Label text="✅ Consultations - Enregistrement des consultations médicales" 
                                style="-fx-font-size: 14px;"/>
                         <Label text="✅ Médicaments - Gestion du stock + alertes" 
+                               style="-fx-font-size: 14px;"/>
+                        <Label text="✅ Vaccinations - Calendrier vaccinal + Rappels" 
                                style="-fx-font-size: 14px;"/>
                         <Label text="⏳ Personnel - Gestion du personnel médical (À venir)" 
                                style="-fx-font-size: 14px; -fx-text-fill: #95a5a6;"/>

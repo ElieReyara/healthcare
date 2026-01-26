@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthcenter.controller.VaccinationController"
+            prefWidth="1000" prefHeight="700">
+    
+    <!-- ========== HEADER : FILTRES + ACTIONS ========== -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 15 15 15 15;">
+            <!-- Ligne 1 : Filtres -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Patient :" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="patientFilter" promptText="Tous les patients" prefWidth="200"/>
+                
+                <Separator orientation="VERTICAL"/>
+                
+                <Label text="Vaccin :" style="-fx-font-weight: bold;"/>
+                <ComboBox fx:id="vaccinFilter" promptText="Tous les vaccins" prefWidth="150"/>
+                
+                <Separator orientation="VERTICAL"/>
+                
+                <CheckBox fx:id="rappelsSeulementCheckbox" text="Rappels seulement" 
+                          onAction="#handleFilterRappels"/>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <Button text="🔄 Actualiser" onAction="#handleRefresh" 
+                        style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
+            </HBox>
+            
+            <!-- Ligne 2 : Boutons Alertes -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Button text="⚠️ Rappels en retard" onAction="#handleVoirRappelsEnRetard"
+                        style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                
+                <Button text="🔔 Rappels prochains (7 jours)" onAction="#handleVoirRappelsProchains"
+                        style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <Label text="💉 Gestion des Vaccinations" 
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1976D2;"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- ========== CENTER : TABLEAU ========== -->
+    <center>
+        <TableView fx:id="vaccinationTable">
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60" minWidth="60"/>
+                <TableColumn fx:id="colPatient" text="Patient" prefWidth="150" minWidth="150"/>
+                <TableColumn fx:id="colVaccin" text="Vaccin" prefWidth="200" minWidth="200"/>
+                <TableColumn fx:id="colDateAdmin" text="Date Admin." prefWidth="130" minWidth="130"/>
+                <TableColumn fx:id="colDateRappel" text="Date Rappel" prefWidth="130" minWidth="130"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="120" minWidth="120"/>
+                <TableColumn fx:id="colNumeroLot" text="N° Lot" prefWidth="100" minWidth="100"/>
+            </columns>
+            
+            <placeholder>
+                <Label text="Aucune vaccination enregistrée" 
+                       style="-fx-text-fill: gray; -fx-font-style: italic;"/>
+            </placeholder>
+        </TableView>
+    </center>
+    
+    <!-- ========== BOTTOM : BOUTONS ACTIONS ========== -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT" 
+              style="-fx-padding: 15 15 15 15; -fx-background-color: #f5f5f5;">
+            
+            <Button text="➕ Nouvelle Vaccination" onAction="#handleNouveau"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            
+            <Button text="📋 Carnet Vaccinal" onAction="#handleVoirCarnet"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <Button text="✏️ Modifier" onAction="#handleModifier"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            
+            <Button text="🗑️ Supprimer" onAction="#handleSupprimer"
+                    style="-fx-background-color: #F44336; -fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

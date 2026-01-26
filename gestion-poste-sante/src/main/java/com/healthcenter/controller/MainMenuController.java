@@ -55,6 +55,14 @@ public class MainMenuController {
     }
     
     /**
+     * Handler Menu : Vaccinations
+     */
+    @FXML
+    private void handleVaccinations() {
+        chargerVaccinations();
+    }
+    
+    /**
      * Handler Menu : Quitter
      */
     @FXML
@@ -74,12 +82,13 @@ public class MainMenuController {
         alert.setHeaderText("Gestion Poste de Santé");
         alert.setContentText(
             "Application de gestion pour poste de santé\n\n" +
-            "Version 2.0\n" +
+            "Version 2.1\n" +
             "© 2026 - Tous droits réservés\n\n" +
             "Modules disponibles :\n" +
             "✅ Patients\n" +
             "✅ Consultations\n" +
-            "✅ Médicaments + Stock"
+            "✅ Médicaments + Stock\n" +
+            "✅ Vaccinations + Calendrier Vaccinal"
         );
         alert.showAndWait();
     }
@@ -105,6 +114,13 @@ public class MainMenuController {
      */
     private void chargerMedicaments() {
         chargerVue("/fxml/medicament-list.fxml", "Médicaments");
+    }
+    
+    /**
+     * Charge la vue Vaccinations dans le contentPane.
+     */
+    private void chargerVaccinations() {
+        chargerVue("/fxml/vaccination-list.fxml", "Vaccinations");
     }
     
     /**

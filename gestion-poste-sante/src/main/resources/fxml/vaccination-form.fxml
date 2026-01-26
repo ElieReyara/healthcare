@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthcenter.controller.VaccinationFormController"
+      spacing="15" style="-fx-padding: 20;">
+    
+    <!-- ========== TITRE ========== -->
+    <Label fx:id="titleLabel" text="💉 Nouvelle Vaccination"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    
+    <Separator/>
+    
+    <!-- ========== FORMULAIRE ========== -->
+    <GridPane hgap="10" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" prefWidth="120" halignment="RIGHT"/>
+            <ColumnConstraints minWidth="250" prefWidth="350" hgrow="ALWAYS"/>
+        </columnConstraints>
+        
+        <!-- Ligne 1 : Patient -->
+        <Label text="Patient * :" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="patientCombo" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                  promptText="Sélectionner un patient" maxWidth="Infinity"
+                  onAction="#handlePatientSelected"/>
+        
+        <!-- Ligne 2 : Vaccin -->
+        <Label text="Vaccin * :" GridPane.columnIndex="0" GridPane.rowIndex="1"
+               style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="vaccinCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  promptText="Sélectionner un vaccin" maxWidth="Infinity"
+                  onAction="#handleVaccinSelected"/>
+        
+        <!-- Ligne 3 : Info Calendrier -->
+        <Label text="" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="infoCalendrierLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"
+               wrapText="true"
+               style="-fx-font-style: italic; -fx-text-fill: #2196F3;"/>
+        
+        <!-- Ligne 4 : Date Administration -->
+        <Label text="Date Admin. * :" GridPane.columnIndex="0" GridPane.rowIndex="3"
+               style="-fx-font-weight: bold;"/>
+        <DatePicker fx:id="dateAdministrationPicker" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                    maxWidth="Infinity"/>
+        
+        <!-- Ligne 5 : Date Rappel + Checkbox Auto -->
+        <Label text="Date Rappel :" GridPane.columnIndex="0" GridPane.rowIndex="4"
+               style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <DatePicker fx:id="dateRappelPicker" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <CheckBox fx:id="calculerRappelAutoCheckbox" text="Calcul auto"
+                      onAction="#handleCalculerRappelAuto"/>
+        </HBox>
+        
+        <!-- Ligne 6 : Numéro de Lot -->
+        <Label text="N° Lot :" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <TextField fx:id="numeroLotField" GridPane.columnIndex="1" GridPane.rowIndex="5"
+                   promptText="Ex: LOT-2024-001"/>
+        
+        <!-- Ligne 7 : Observations -->
+        <Label text="Observations :" GridPane.columnIndex="0" GridPane.rowIndex="6"
+               GridPane.valignment="TOP"/>
+        <TextArea fx:id="observationsArea" GridPane.columnIndex="1" GridPane.rowIndex="6"
+                  promptText="Remarques, réactions..." prefHeight="80" wrapText="true"/>
+    </GridPane>
+    
+    <!-- ========== MESSAGE ERREUR ========== -->
+    <Label fx:id="errorLabel" wrapText="true" visible="false"
+           style="-fx-text-fill: red; -fx-font-weight: bold;"/>
+    
+    <!-- ========== BOUTONS ========== -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color: #9E9E9E; -fx-text-fill: white;"/>
+        
+        <Button text="💉 Enregistrer" onAction="#handleSave"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+    
+</VBox>

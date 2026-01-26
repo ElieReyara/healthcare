@@ -5,11 +5,11 @@
 ```markdown
 # CONTEXT – Gestion Poste de Santé Communautaire
 
-**Dernière mise à jour :** 2026-01-26 18:00  
-**Version :** 2.0.0  
-**Modules complétés :** Patient (100%), Consultations (100%), Médicaments + Stock (100%)  
+**Dernière mise à jour :** 2026-01-26 20:30  
+**Version :** 2.1.0  
+**Modules complétés :** Patient (100%), Consultations (100%), Médicaments + Stock (100%), Vaccinations + Calendrier (100%)  
 **Module en cours :** -  
-**Modules restants :** Vaccinations, Personnel, Statistiques, Rapports
+**Modules restants :** Personnel, Statistiques, Rapports
 
 ---
 
@@ -136,7 +136,7 @@ public class Patient {
 
 ---
 
-### Entity Consultation (À FAIRE 🔄)
+### Entity Consultation (TERMINÉ ✅)
 **Fichier :** `src/main/java/com/healthcenter/domain/entities/Consultation.java`
 
 ```java
@@ -187,7 +187,7 @@ public class Consultation {
 
 ---
 
-### Entity Medicament (À FAIRE ⏳)
+### Entity Medicament (TERMINÉ ✅)
 **Fichier :** `src/main/java/com/healthcenter/domain/entities/Medicament.java`
 
 ```java
@@ -245,7 +245,9 @@ public class Personnel {
 
 ---
 
-### Entity Vaccination (À FAIRE ⏳)
+### Entity Vaccination (TERMINÉ ✅)
+**Fichier :** `src/main/java/com/healthcenter/domain/entities/Vaccination.java`
+
 ```java
 @Entity
 @Table(name = "vaccinations")
@@ -257,13 +259,45 @@ public class Vaccination {
     @JoinColumn(name = "patient_id")
     Patient patient;
     
-    @ManyToOne
-    @JoinColumn(name = "personnel_id")
-    Personnel personnel;
+    @Enumerated(EnumType.STRING)
+    TypeVaccin vaccin; // 16 types (BCG, POLIO, PENTA, etc.)
     
-    String vaccin;
     LocalDate dateAdministration;
-    LocalDate dateRappel;
+    LocalDate dateRappel; // Calculé automatiquement selon calendrier
+    String numeroLot;
+    String observations;
+    
+    @Enumerated(EnumType.STRING)
+    StatutVaccination statut; // ADMINISTRE, RAPPEL_PREVU, RAPPEL_EN_RETARD
+    
+    // Méthodes utilitaires
+    boolean isRappelProche(); // < 7 jours
+    boolean isRappelEnRetard(); // Date passée
+    void calculerStatut(); // Auto-calcul selon dates
+}
+```
+
+### Entity CalendrierVaccinal (TERMINÉ ✅)
+**Fichier :** `src/main/java/com/healthcenter/domain/entities/CalendrierVaccinal.java`
+
+```java
+@Entity
+@Table(name = "calendrier_vaccinal")
+public class CalendrierVaccinal {
+    @Id @GeneratedValue
+    Long id;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(unique = true)
+    TypeVaccin vaccin;
+    
+    Integer ageRecommande; // En jours (0=naissance, 42=6 semaines, 270=9 mois)
+    Integer nombreRappels;
+    Integer delaiRappel; // En jours entre rappels
+    Boolean obligatoire;
+    String description;
+    
+    LocalDate calculerDateRappel(LocalDate dateAdmin);
 }
 ```
 
@@ -392,18 +426,37 @@ public class MouvementStock {
 
 ---
 
-#### Module Vaccinations (Priorité 4)
+#### Module Vaccinations + Calendrier Vaccinal (TERMINÉ ✅)
 
-**Tâches :**
-- [ ] Entity Vaccination
-- [ ] VaccinationRepository
-- [ ] VaccinationService
-- [ ] VaccinationController + FXML
-- [ ] Système rappels vaccins
+**Tâches accomplies :**
+- [x] Enums TypeVaccin (16 vaccins Sénégal) + StatutVaccination
+- [x] Entity Vaccination + CalendrierVaccinal
+- [x] VaccinationRepository + CalendrierVaccinalRepository (JPQL)
+- [x] VaccinationDTO + CalendrierVaccinalDTO
+- [x] VaccinationService (CRUD + rappels + carnet + stats)
+- [x] CalendrierVaccinalService (initialisation Sénégal)
+- [x] VaccinationController (liste + filtres + alertes)
+- [x] VaccinationFormController (création/édition + calcul auto)
+- [x] CarnetVaccinalController (carnet complet patient)
+- [x] vaccination-list.fxml
+- [x] vaccination-form.fxml
+- [x] carnet-vaccinal.fxml
+- [x] VaccinationServiceTest (10 tests unitaires)
+- [x] VaccinationDataInitializer (auto-init calendrier)
+
+**Fonctionnalités livrées :**
+→ Enregistrement vaccinations avec calcul automatique rappels
+→ Calendrier vaccinal Sénégal (16 vaccins : BCG, POLIO, PENTA, VAR, etc.)
+→ Alertes rappels en retard (⚠️) et rappels prochains 7j (🔔)
+→ Carnet vaccinal complet par patient (vaccins faits ✅, manquants ❌, prévus 🔔)
+→ Filtrage par patient, vaccin, rappels seulement
+→ Détection automatique vaccins manquants selon âge + calendrier
+→ Statistiques taux de couverture vaccinale (%)
+→ Coloration visuelle des statuts (vert/orange/rouge)
 
 ---
 
-### Phase 3 : Statistiques & Reporting (À FAIRE ⏳)
+#### Module Personnel (Priorité 3)
 
 **Tâches :**
 - [ ] Dashboard statistiques
@@ -425,6 +478,16 @@ public class MouvementStock {
 ---
 
 ## CHANGELOG
+
+### 2026-01-26
+- ✅ **Module Vaccinations + Calendrier Vaccinal** : Système complet de gestion des vaccinations
+  * 16 vaccins du calendrier Sénégal (BCG, POLIO, PENTA, PNEUMO, ROTA, VAR, FIEVRE_JAUNE, MENINGITE)
+  * Calcul automatique des rappels selon âge et calendrier
+  * Alertes visuelles rappels en retard (⚠️) et prochains (🔔)
+  * Carnet vaccinal complet avec détection vaccins manquants
+  * Statistiques de couverture vaccinale
+  * 10 tests unitaires
+  * Auto-initialisation calendrier au démarrage
 
 ### 2026-01-25
 - ✅ **Module Patient** : CRUD complet + UI

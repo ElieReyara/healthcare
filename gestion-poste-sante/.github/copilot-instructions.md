@@ -422,6 +422,11 @@ Après génération, vérifie :
 
 
 ---
+## PROCESS OBLIGATOIRE
+- Apres avoir terminer un module, dans CONTEXT.md, remplacer ex : ### Entity Personnel (À FAIRE ⏳) par ### Entity Personnel (COMPLÉTÉ ✅)
+- Mettre à jour le README.md avec les instructions d'utilisation du module (voir section README.MD MISE À JOUR OBLIGATOIRE)
+- Committer les changements avec message clair ex : "Ajout module Personnel (Entity, Repository, Service, Controller, FXML, Tests)"
+---
 ## README.MD MISE À JOUR OBLIGATOIRE
 **Chemin :** `README.md` (racine projet)
 
