@@ -5,11 +5,11 @@
 ```markdown
 # CONTEXT – Gestion Poste de Santé Communautaire
 
-**Dernière mise à jour :** 2026-01-26 20:30  
-**Version :** 2.1.0  
-**Modules complétés :** Patient (100%), Consultations (100%), Médicaments + Stock (100%), Vaccinations + Calendrier (100%)  
+**Dernière mise à jour :** 2026-01-26 21:00  
+**Version :** 2.2.0  
+**Modules complétés :** Patient (100%), Consultations (100%), Médicaments + Stock (100%), Vaccinations + Calendrier (100%), Personnel (100%), Statistiques & Rapports (100%)  
 **Module en cours :** -  
-**Modules restants :** Personnel, Statistiques, Rapports
+**Modules restants :** Multi-utilisateurs (login), Backup auto, Logs audit
 
 ---
 
@@ -222,7 +222,9 @@ public class Medicament {
 
 ---
 
-### Entity Personnel (À FAIRE ⏳)
+### Entity Personnel (TERMINÉ ✅)
+**Fichier :** `src/main/java/com/healthcenter/domain/entities/Personnel.java`
+
 ```java
 @Entity
 @Table(name = "personnel")
@@ -233,15 +235,37 @@ public class Personnel {
     String nom, prenom;
     
     @Enumerated(EnumType.STRING)
-    FonctionPersonnel fonction;  // MEDECIN, INFIRMIER, SAGE_FEMME
+    FonctionPersonnel fonction;  // 8 valeurs: MEDECIN, INFIRMIER, SAGE_FEMME, 
+                                 // AIDE_SOIGNANT, PHARMACIEN, TECHNICIEN_LABO,
+                                 // GESTIONNAIRE, RECEPTIONNISTE
     
-    String specialisation;
-    String telephone;
+    String specialisation;  // Ex: Pédiatre, Chirurgien
+    String telephone;  // Format Sénégal: +221 77 123 45 67
+    String email;
+    String adresse;
+    String numeroMatricule;  // Unique
+    LocalDate dateEmbauche;
+    Boolean actif;  // Soft delete
     
-    @OneToMany(mappedBy = "personnel")
+    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
     List<Consultation> consultations;
+    
+    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
+    List<Vaccination> vaccinations;
+    
+    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL)
+    List<DisponibilitePersonnel> disponibilites;
 }
 ```
+
+**Enum FonctionPersonnel :**
+- MEDECIN, INFIRMIER, SAGE_FEMME, AIDE_SOIGNANT
+- PHARMACIEN, TECHNICIEN_LABO, GESTIONNAIRE, RECEPTIONNISTE
+
+**Entity DisponibilitePersonnel :**
+- Planning hebdomadaire par jour (JourSemaine enum: LUNDI-DIMANCHE)
+- Créneaux horaires (heureDebut/heureFin)
+- Validation date (dateDebut/dateFin pour périodes)
 
 ---
 
@@ -320,7 +344,7 @@ public class Maladie {
 
 ---
 
-### Entity MouvementStock (À FAIRE ⏳)
+### Entity MouvementStock (TERMINÉ ✅)
 ```java
 @Entity
 @Table(name = "mouvements_stock")
@@ -406,23 +430,41 @@ public class MouvementStock {
 #### Module Médicaments + Stock (Priorité 2)
 
 **Tâches :**
-- [ ] Entity Medicament + MouvementStock
-- [ ] MedicamentRepository
-- [ ] MedicamentService (CRUD + stock)
-- [ ] MedicamentController + FXML
-- [ ] Alertes stock faible
-- [ ] Historique mouvements
-- [ ] Déduction auto lors consultation
+- [x] Entity Medicament + MouvementStock
+- [x] MedicamentRepository
+- [x] MedicamentService (CRUD + stock)
+- [x] MedicamentController + FXML
+- [x] Alertes stock faible
+- [x] Historique mouvements
+- [x] Déduction auto lors consultation
 
 ---
 
-#### Module Personnel (Priorité 3)
+#### Module Personnel (TERMINÉ ✅)
 
-**Tâches :**
-- [ ] Entity Personnel
-- [ ] PersonnelRepository
-- [ ] PersonnelService
-- [ ] PersonnelController + FXML
+**Tâches accomplies :**
+- [x] Enums FonctionPersonnel (8 valeurs) + JourSemaine (7 jours)
+- [x] Entity Personnel + DisponibilitePersonnel
+- [x] PersonnelRepository + DisponibilitePersonnelRepository (JPQL)
+- [x] PersonnelDTO + DisponibilitePersonnelDTO
+- [x] PersonnelService (CRUD + statistiques + disponibilités + activation/désactivation)
+- [x] DisponibilitePersonnelService (gestion planning)
+- [x] PersonnelController (liste + filtres + actions)
+- [x] PersonnelFormController (formulaire + validation Sénégal)
+- [x] PersonnelDetailsController (3 tabs: Stats/Planning/Historique)
+- [x] personnel-list.fxml
+- [x] personnel-form.fxml
+- [x] personnel-details.fxml
+- [x] PersonnelServiceTest (10 tests unitaires)
+- [x] Update Consultation.java + Vaccination.java (relation @ManyToOne Personnel)
+
+**Fonctionnalités :**
+→ Gestion personnel médical (8 fonctions)
+→ Planning hebdomadaire par jour
+→ Statistiques consultations par personnel
+→ Activation/Désactivation (soft delete)
+→ Validation email + téléphone Sénégal
+→ Fiche détaillée avec historique
 
 ---
 
@@ -466,6 +508,39 @@ public class MouvementStock {
 
 ---
 
+#### Module Statistiques & Rapports (TERMINÉ ✅)
+
+**Tâches accomplies :**
+- [x] Enums TypeRapport (8 valeurs) + FormatRapport + PeriodeStatistique (6 valeurs avec calculs dates)
+- [x] Entity Rapport (historique rapports générés)
+- [x] RapportRepository (JPA + requêtes personnalisées)
+- [x] DTOs (DashboardStats, RepartitionData, EvolutionData, StatistiquesPatients, StatistiquesConsultations)
+- [x] StatistiqueService (agrégation 5 services: Patient/Consultation/Medicament/Vaccination/Personnel)
+- [x] RapportService (génération PDF avec iText + Excel avec Apache POI)
+- [x] ExportService (exports CSV multi-formats)
+- [x] DashboardController (12 KPIs + 4 graphiques JavaFX)
+- [x] RapportController (formulaire génération avec aperçu + ProgressBar async)
+- [x] StatistiquesDetailsController (stats détaillées avec 3 tabs + filtres)
+- [x] dashboard.fxml (7 tuiles colorées + GridPane charts)
+- [x] rapport.fxml (formulaire complet + aperçu)
+- [x] statistiques-details.fxml (TabPane + filtres période)
+- [x] StatistiqueServiceTest (8 tests unitaires)
+- [x] RapportServiceTest (5 tests avec @TempDir)
+- [x] Dépendances Apache POI 5.2.5 + iText 8.0.3
+
+**Fonctionnalités livrées :**
+→ Dashboard avec 12 indicateurs clés (patients, consultations, vaccinations, médicaments, personnel)
+→ 4 graphiques interactifs (PieChart répartition sexe + couverture vaccinale, BarChart consultations 6 mois + maladies fréquentes)
+→ Génération rapports PDF/Excel avec 6 types (ACTIVITE_GLOBALE, CONSULTATIONS, VACCINATIONS, MEDICAMENTS_STOCK, PERSONNEL_ACTIVITE, MALADIES_FREQUENTES)
+→ Filtrage par période (AUJOURD_HUI, SEMAINE, MOIS, TRIMESTRE, ANNEE, PERSONNALISE)
+→ Exports CSV multi-fichiers (patients, consultations, vaccinations, médicaments)
+→ Granularité temporelle automatique (JOUR <30j, SEMAINE <90j, MOIS >=90j)
+→ Tranches d'âge patients (0-5, 6-18, 19-40, 41-60, 60+ ans)
+→ Génération asynchrone avec barre progression + confirmation ouverture fichier
+→ Historique rapports générés avec métadonnées (taille, date, format)
+
+---
+
 ### Phase 4 : Polish & Production (À FAIRE ⏳)
 
 **Tâches :**
@@ -479,7 +554,22 @@ public class MouvementStock {
 
 ## CHANGELOG
 
-### 2026-01-26
+### 2026-01-26 (21:00)
+- ✅ **Module Statistiques & Rapports** : Système complet de business intelligence
+  * Dashboard interactif 12 KPIs (patients total/mois, consultations total/mois/semaine/aujourd'hui, vaccinations, médicaments stock/rupture, personnel actif)
+  * 4 graphiques JavaFX (PieChart répartition sexe + couverture vaccinale, BarChart consultations 6 mois + top 10 maladies fréquentes)
+  * Génération rapports PDF (iText 8.0.3) et Excel (Apache POI 5.2.5) avec 6 types prédéfinis
+  * Exports CSV multi-formats (patients, consultations, vaccinations, médicaments)
+  * Filtrage temporel avancé (6 périodes: AUJOURD_HUI, SEMAINE, MOIS, TRIMESTRE, ANNEE, PERSONNALISE)
+  * Granularité automatique selon période (JOUR <30j, SEMAINE <90j, MOIS >=90j)
+  * Statistiques patients (répartition sexe/âge, moyenne âge, évolution nouveaux patients)
+  * Statistiques consultations (évolution temporelle, maladies fréquentes, consultations par personnel)
+  * Génération asynchrone avec ProgressBar + confirmation ouverture fichier
+  * Historique rapports générés avec métadonnées (taille formatée, date, type, format)
+  * 13 tests unitaires (8 StatistiqueService + 5 RapportService)
+  * 19 fichiers créés (3 enums, 1 entity, 5 DTOs, 1 repository, 3 services, 3 controllers, 3 FXML)
+
+### 2026-01-26 (20:30)
 - ✅ **Module Vaccinations + Calendrier Vaccinal** : Système complet de gestion des vaccinations
   * 16 vaccins du calendrier Sénégal (BCG, POLIO, PENTA, PNEUMO, ROTA, VAR, FIEVRE_JAUNE, MENINGITE)
   * Calcul automatique des rappels selon âge et calendrier

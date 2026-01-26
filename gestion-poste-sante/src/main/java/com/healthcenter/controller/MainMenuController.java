@@ -63,6 +63,30 @@ public class MainMenuController {
     }
     
     /**
+     * Handler Menu : Personnel
+     */
+    @FXML
+    private void handlePersonnel() {
+        chargerPersonnel();
+    }
+    
+    /**
+     * Handler Menu : Statistiques
+     */
+    @FXML
+    private void handleStatistiques() {
+        chargerStatistiques();
+    }
+    
+    /**
+     * Handler Menu : Rapports
+     */
+    @FXML
+    private void handleRapports() {
+        chargerRapports();
+    }
+    
+    /**
      * Handler Menu : Quitter
      */
     @FXML
@@ -82,13 +106,16 @@ public class MainMenuController {
         alert.setHeaderText("Gestion Poste de Santé");
         alert.setContentText(
             "Application de gestion pour poste de santé\n\n" +
-            "Version 2.1\n" +
+            "Version 2.2\n" +
             "© 2026 - Tous droits réservés\n\n" +
             "Modules disponibles :\n" +
             "✅ Patients\n" +
             "✅ Consultations\n" +
             "✅ Médicaments + Stock\n" +
-            "✅ Vaccinations + Calendrier Vaccinal"
+            "✅ Vaccinations + Calendrier Vaccinal\n" +
+            "✅ Personnel Médical\n" +
+            "✅ Statistiques + Tableaux de bord\n" +
+            "✅ Rapports PDF/Excel"
         );
         alert.showAndWait();
     }
@@ -121,6 +148,27 @@ public class MainMenuController {
      */
     private void chargerVaccinations() {
         chargerVue("/fxml/vaccination-list.fxml", "Vaccinations");
+    }
+    
+    /**
+     * Charge la vue Personnel dans le contentPane.
+     */
+    private void chargerPersonnel() {
+        chargerVue("/fxml/personnel-list.fxml", "Personnel");
+    }
+    
+    /**
+     * Charge la vue Statistiques dans le contentPane.
+     */
+    private void chargerStatistiques() {
+        chargerVue("/fxml/dashboard.fxml", "Statistiques");
+    }
+    
+    /**
+     * Charge la vue Rapports dans le contentPane.
+     */
+    private void chargerRapports() {
+        chargerVue("/fxml/rapport.fxml", "Rapports");
     }
     
     /**

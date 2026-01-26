@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.healthcenter.controller.PersonnelController"
+            stylesheets="@../styles.css">
+    
+    <!-- TOP: Barre titre + Filtres -->
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="10" left="15"/>
+            </padding>
+            
+            <!-- Titre -->
+            <HBox alignment="CENTER_LEFT">
+                <Label text="👥 PERSONNEL MÉDICAL" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            </HBox>
+            
+            <!-- Ligne Filtres -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="5"/>
+                </padding>
+                
+                <Label text="Fonction :"/>
+                <ComboBox fx:id="fonctionFilter" promptText="Toutes les fonctions" prefWidth="200"/>
+                
+                <Label text="Recherche :"/>
+                <TextField fx:id="searchField" promptText="Nom ou prénom..." prefWidth="250"/>
+                
+                <CheckBox fx:id="actifSeulementCheckbox" text="Actifs uniquement" selected="true"/>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <Button text="🔄 Rafraîchir" onAction="#handleRefresh"/>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- CENTER: TableView Personnel -->
+    <center>
+        <VBox>
+            <padding>
+                <Insets top="0" right="15" bottom="10" left="15"/>
+            </padding>
+            
+            <TableView fx:id="personnelTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50" sortable="true"/>
+                    <TableColumn fx:id="colMatricule" text="Matricule" prefWidth="120" sortable="true"/>
+                    <TableColumn fx:id="colNom" text="Nom" prefWidth="120" sortable="true"/>
+                    <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="120" sortable="true"/>
+                    <TableColumn fx:id="colFonction" text="Fonction" prefWidth="150" sortable="true"/>
+                    <TableColumn fx:id="colSpecialisation" text="Spécialisation" prefWidth="150" sortable="true"/>
+                    <TableColumn fx:id="colTelephone" text="Téléphone" prefWidth="130" sortable="false"/>
+                    <TableColumn fx:id="colEmail" text="Email" prefWidth="200" sortable="false"/>
+                    <TableColumn fx:id="colStatut" text="Statut" prefWidth="100" sortable="true"/>
+                </columns>
+                
+                <placeholder>
+                    <Label text="Aucun personnel trouvé" style="-fx-text-fill: gray;"/>
+                </placeholder>
+            </TableView>
+        </VBox>
+    </center>
+    
+    <!-- BOTTOM: Boutons actions -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="15" bottom="15" left="15"/>
+            </padding>
+            
+            <Button text="➕ Nouveau" onAction="#handleNouveau" style="-fx-background-color: #4CAF50; -fx-text-fill: white;">
+                <font>
+                    <Font name="System Bold" size="12"/>
+                </font>
+            </Button>
+            
+            <Button text="✏️ Modifier" onAction="#handleModifier" style="-fx-background-color: #2196F3; -fx-text-fill: white;">
+                <font>
+                    <Font name="System Bold" size="12"/>
+                </font>
+            </Button>
+            
+            <Button text="👁️ Détails" onAction="#handleVoirDetails" style="-fx-background-color: #9C27B0; -fx-text-fill: white;">
+                <font>
+                    <Font name="System Bold" size="12"/>
+                </font>
+            </Button>
+            
+            <Button text="🔒 Désactiver" onAction="#handleDesactiver" style="-fx-background-color: #FF9800; -fx-text-fill: white;">
+                <font>
+                    <Font name="System Bold" size="12"/>
+                </font>
+            </Button>
+            
+            <Button text="✅ Activer" onAction="#handleActiver" style="-fx-background-color: #8BC34A; -fx-text-fill: white;">
+                <font>
+                    <Font name="System Bold" size="12"/>
+                </font>
+            </Button>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <Button text="🗑️ Supprimer" onAction="#handleSupprimer" style="-fx-background-color: #F44336; -fx-text-fill: white;">
+                <font>
+                    <Font name="System Bold" size="12"/>
+                </font>
+            </Button>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

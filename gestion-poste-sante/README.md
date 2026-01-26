@@ -144,3 +144,213 @@ Le calendrier est automatiquement initialisé au démarrage de l'application.
   * `CarnetVaccinalController` (carnet complet patient)
 - **Tests** : 10 tests unitaires JUnit 5 (validation DTO, calcul rappels, détection manquants, stats)
 - **Initialisation** : `VaccinationDataInitializer` (@PostConstruct) pour peupler le calendrier au démarrage
+---
+
+## 👥 Module Personnel Médical
+
+### Fonctionnalités
+- ✅ Gestion complète du personnel médical (8 fonctions)
+- ✅ Planning hebdomadaire par jour avec créneaux horaires
+- ✅ Statistiques d'activité (total consultations, ce mois, cette semaine)
+- ✅ Fiche détaillée avec 3 onglets (Statistiques, Planning, Historique)
+- ✅ Activation/Désactivation (soft delete)
+- ✅ Validation email + téléphone format Sénégal
+- ✅ Filtrage par fonction + recherche nom/prénom
+- ✅ Vérification disponibilité jour/heure
+
+### Utilisation
+
+#### Créer un personnel
+1. Menu **Modules > Personnel**
+2. Cliquer **➕ Nouveau**
+3. Remplir les champs obligatoires :
+   - Nom* et Prénom*
+   - Fonction* : MEDECIN, INFIRMIER, SAGE_FEMME, AIDE_SOIGNANT, PHARMACIEN, TECHNICIEN_LABO, GESTIONNAIRE, RECEPTIONNISTE
+   - Spécialisation (activée automatiquement pour MEDECIN, ex: Pédiatre, Chirurgien)
+4. Coordonnées :
+   - Téléphone : Formats acceptés `77 123 45 67`, `771234567`, `+221771234567`
+   - Email : Format standard `email@example.com`
+   - Adresse complète
+5. Administration :
+   - N° Matricule : Identifiant unique (ex: MAT-2024-001)
+   - Date Embauche : Date d'entrée en fonction
+   - Statut : Actif par défaut
+6. **Enregistrer**
+
+#### Consulter la fiche détaillée
+1. Sélectionner un personnel dans la liste
+2. Cliquer **👁️ Détails**
+3. Voir les 3 onglets :
+   - **📊 Statistiques** : Total consultations, ce mois, cette semaine
+   - **📅 Planning** : Disponibilités par jour (Lundi-Dimanche) avec créneaux horaires
+   - **📝 Historique** : Liste complète des consultations effectuées
+
+#### Gérer le planning hebdomadaire
+1. Ouvrir fiche détaillée d'un personnel
+2. Onglet **Planning**
+3. Cliquer **✏️ Modifier Planning**
+4. Définir les disponibilités par jour :
+   - Format créneaux : `08:00-12:00, 14:00-17:00`
+   - Plusieurs créneaux par jour possibles
+   - Périodes de validité (dateDebut/dateFin)
+
+#### Activer/Désactiver un personnel
+- **Désactiver** : Cliquer **🔒 Désactiver** (personnel inactif, conserve historique)
+- **Activer** : Cliquer **✅ Activer** (réactivation d'un personnel inactif)
+- Filtre **Actifs uniquement** activé par défaut dans la liste
+
+#### Filtrer et rechercher
+- **Par fonction** : Sélectionner dans ComboBox (affiche les libellés français)
+- **Par nom/prénom** : Saisir dans champ recherche (insensible casse)
+- **Par statut** : Cocher/décocher "Actifs uniquement"
+
+### Fonctions médicales disponibles
+| Code | Libellé | Est Médical |
+|------|---------|-------------|
+| MEDECIN | Médecin | ✅ |
+| INFIRMIER | Infirmier(ère) | ✅ |
+| SAGE_FEMME | Sage-femme | ✅ |
+| AIDE_SOIGNANT | Aide-soignant(e) | ✅ |
+| PHARMACIEN | Pharmacien(ne) | ❌ |
+| TECHNICIEN_LABO | Technicien de laboratoire | ❌ |
+| GESTIONNAIRE | Gestionnaire | ❌ |
+| RECEPTIONNISTE | Réceptionniste | ❌ |
+
+### Validations appliquées
+- **Nom, Prénom, Fonction** : Obligatoires
+- **Email** : Regex `^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$`
+- **Téléphone Sénégal** : Regex `^(\\+221)?[37][0378]\\d{7}$` (accepte préfixes 77/33/70/76/78)
+- **Matricule** : Unique dans la base
+- **Spécialisation** : Activée uniquement pour MEDECIN
+
+### Architecture technique
+- **Enums** : 
+  * `FonctionPersonnel` (8 valeurs avec libellé + estMedical)
+  * `JourSemaine` (7 jours avec ordre + DayOfWeek)
+- **Entities** : 
+  * `Personnel` (avec @OneToMany vers Consultation/Vaccination/DisponibilitePersonnel)
+  * `DisponibilitePersonnel` (planning avec JourSemaine + créneaux + périodes)
+- **Repositories** : 
+  * `PersonnelRepository` avec JPQL (findByFonctionsActifs, compterConsultationsParPersonnel)
+  * `DisponibilitePersonnelRepository` (findDisponibilitesActives avec validation dates)
+- **Services** : 
+  * `PersonnelService` : CRUD, statistiques (obtenirTopPersonnelActif, compterParFonction), disponibilités (estDisponible), activation/désactivation
+  * `DisponibilitePersonnelService` : Gestion planning (definirPlanning parse format "HH:mm-HH:mm")
+- **Controllers** : 
+  * `PersonnelController` (liste TableView 9 cols, CellFactory statut ✅/❌, filtres)
+  * `PersonnelFormController` (validation email + phone Sénégal, fonction-based fields)
+  * `PersonnelDetailsController` (3 tabs: Stats/Planning/Historique consultations)
+- **Tests** : 10 tests unitaires Mockito (CRUD, validation, statistiques, disponibilités)
+
+---
+
+## 📊 Module Statistiques & Rapports
+
+### Fonctionnalités
+- ✅ Dashboard interactif avec 12 indicateurs clés de performance (KPIs)
+- ✅ 4 graphiques JavaFX (PieChart + BarChart)
+- ✅ Génération rapports PDF (iText) et Excel (Apache POI)
+- ✅ Exports CSV multi-formats
+- ✅ Filtrage temporel avancé (6 périodes)
+- ✅ Statistiques détaillées (patients, consultations, vaccinations, médicaments, personnel)
+- ✅ Historique rapports générés
+
+### Utilisation
+
+#### Accéder au dashboard
+1. Menu **Modules > Statistiques & Rapports**
+2. Le tableau de bord affiche automatiquement :
+   - **Patients** : Total + Nouveaux ce mois (tuile bleue)
+   - **Consultations** : Total + Ce mois + Cette semaine + Aujourd'hui (tuiles vertes/oranges)
+   - **Vaccinations** : Total + Ce mois (tuile violette)
+   - **Médicaments** : Stock total + En rupture (tuile rouge)
+   - **Personnel** : Actifs (tuile orange)
+3. Cliquer **🔄 Actualiser** pour rafraîchir les données
+4. Visualiser les 4 graphiques :
+   - **Répartition par sexe** (camembert)
+   - **Consultations 6 derniers mois** (barres)
+   - **Maladies fréquentes** (barres top 10)
+   - **Couverture vaccinale** (camembert %)
+
+#### Générer un rapport
+1. Cliquer **📄 Générer Rapport** depuis le dashboard
+2. Sélectionner :
+   - **Type de rapport** : Activité globale, Consultations, Vaccinations, Médicaments, Personnel, Maladies fréquentes
+   - **Période** : Aujourd'hui, Semaine, Mois, Trimestre, Année, Personnalisée (avec sélection dates)
+   - **Format** : PDF ou Excel (XLSX)
+3. Cliquer **👁️ Afficher aperçu** pour prévisualiser le contenu (optionnel)
+4. Cliquer **📥 Générer**
+5. Choisir l'emplacement de sauvegarde
+6. Une barre de progression s'affiche pendant la génération
+7. À la fin, confirmer si vous voulez ouvrir le fichier automatiquement
+
+#### Exporter des données en CSV
+1. Depuis le dashboard, cliquer **💾 Exporter**
+2. Ou depuis Statistiques Détaillées, cliquer **💾 Exporter CSV**
+3. Sélectionner le dossier de destination
+4. Le système génère les fichiers CSV (séparateur ";", format français)
+
+#### Consulter les statistiques détaillées
+1. Cliquer **📈 Statistiques Détaillées**
+2. Sélectionner :
+   - **Catégorie** : Patients, Consultations, Vaccinations, Médicaments, Personnel
+   - **Période** : Filtrage temporel (aujourd'hui, semaine, mois, etc.)
+3. Cliquer **▶️ Appliquer**
+4. Explorer les 3 onglets :
+   - **📊 Synthèse** : Indicateurs clés + répartitions
+   - **📉 Graphiques** : Visualisations interactives
+   - **📋 Données Détaillées** : TableView avec données brutes
+
+### Types de rapports disponibles
+| Type | Contenu | Granularité temporelle |
+|------|---------|----------------------|
+| **ACTIVITE_GLOBALE** | Dashboard complet + toutes les statistiques | Auto (JOUR/SEMAINE/MOIS) |
+| **CONSULTATIONS** | Stats consultations + maladies fréquentes + consultations par personnel | Auto |
+| **VACCINATIONS** | Stats vaccinations + évolution + couverture vaccinale | Auto |
+| **MEDICAMENTS_STOCK** | Stock total, ruptures, valeur totale, top médicaments, alertes | Instantané |
+| **PERSONNEL_ACTIVITE** | Stats personnel + consultations/vaccinations par personnel + répartition fonction | Période spécifiée |
+| **MALADIES_FREQUENTES** | Top 30 maladies avec répartition + pourcentages | Période spécifiée |
+
+### Granularité temporelle automatique
+- **JOUR** : Si période < 30 jours
+- **SEMAINE** : Si période entre 30 et 90 jours
+- **MOIS** : Si période >= 90 jours
+
+### Tranches d'âge patients
+- **0-5 ans** : Petite enfance
+- **6-18 ans** : Enfance/Adolescence
+- **19-40 ans** : Adulte jeune
+- **41-60 ans** : Adulte
+- **60+ ans** : Senior
+
+### Architecture technique
+- **Enums** :
+  * `TypeRapport` (8 valeurs : ACTIVITE_GLOBALE, CONSULTATIONS, VACCINATIONS, MEDICAMENTS_STOCK, PERSONNEL_ACTIVITE, MALADIES_FREQUENTES, MENSUEL, ANNUEL)
+  * `FormatRapport` (PDF "pdf", EXCEL "xlsx")
+  * `PeriodeStatistique` (6 valeurs avec calculs dates : AUJOURD_HUI, SEMAINE, MOIS, TRIMESTRE, ANNEE, PERSONNALISE)
+- **Entity** :
+  * `Rapport` (historique : typeRapport, dateGeneration, dateDebut/Fin, nomFichier, formatFichier, generePar, tailleFichier)
+- **DTOs** :
+  * `DashboardStats` (11 Long + dateGeneration)
+  * `RepartitionData` (label, valeur, pourcentage avec calculerPourcentage)
+  * `EvolutionData` (periode, valeur, date)
+  * `StatistiquesPatients` (nbTotal, repartitionSexe/Age, moyenneAge, nouveauxPatientsMois)
+  * `StatistiquesConsultations` (nbTotal, nbPeriode, evolutionTemporelle, maladiesFrequentes, consultationsParPersonnel, moyenneParJour)
+- **Repository** :
+  * `RapportRepository` (findByTypeRapport, findByDateGenerationBetween, findTop10ByOrderByDateGenerationDesc)
+- **Services** (1500+ lignes total):
+  * `StatistiqueService` : Agrégation 5 services (@Autowired PatientService, ConsultationService, MedicamentService, VaccinationService, PersonnelService), 13 méthodes publiques
+  * `RapportService` : Génération PDF (iText 8.0.3) + Excel (Apache POI 5.2.5), 6 types rapports, async generation
+  * `ExportService` : CSV avec séparateur ";", escape automatique, multi-fichiers
+- **Controllers** (900+ lignes total):
+  * `DashboardController` : 12 Labels KPIs + 4 Charts (PieChart x2, BarChart x2), chargerDashboard(), 4 méthodes graphiques
+  * `RapportController` : Form avec 5 ComboBox/DatePickers, aperçu TextArea, génération async avec ProgressBar, confirmation ouverture fichier
+  * `StatistiquesDetailsController` : Filtres catégorie/période, TabPane 3 tabs (Synthèse/Graphiques/Données), chargerStatistiques* dynamiques
+- **FXML** :
+  * `dashboard.fxml` : BorderPane avec 7 tuiles colorées (GridPane 3x3) + 4 charts (GridPane 2x2)
+  * `rapport.fxml` : VBox avec GridPane form 5 rows + TextArea aperçu + ProgressBar + buttons
+  * `statistiques-details.fxml` : BorderPane avec HBox filters TOP + TabPane CENTER + HBox buttons BOTTOM
+- **Tests** : 13 tests unitaires (8 StatistiqueService + 5 RapportService avec @TempDir)
+- **Dépendances** :
+  * Apache POI 5.2.5 (org.apache.poi:poi-ooxml) pour Excel (XSSFWorkbook, Sheet, Row, Cell)
+  * iText 8.0.3 (com.itextpdf:itext7-core) pour PDF (PdfWriter, PdfDocument, Document, Paragraph, Table)

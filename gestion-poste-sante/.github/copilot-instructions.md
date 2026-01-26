@@ -27,6 +27,116 @@ Tu DOIS lire ces fichiers obligatoirement :
 ---
 
 
+## RÈGLES DE GÉNÉRATION CODE - Anti-Erreurs
+
+
+### Identifiants Java
+- **ASCII UNIQUEMENT** : a-z, A-Z, 0-9, _ (underscore)
+- ❌ **INTERDITS** : accents, apostrophes, caractères spéciaux
+  ```java
+  // ❌ INTERDIT
+  LocalDate aujourd'hui = LocalDate.now();
+  
+  // ✅ CORRECT
+  LocalDate aujourdhui = LocalDate.now();
+  ```
+
+
+### Spring Boot 3.x - Namespace Jakarta
+- **Utiliser `jakarta.*` namespace** (NOT `javax.*`)
+  ```java
+  // ❌ INTERDIT (Spring Boot 2.x)
+  import javax.annotation.PostConstruct;
+  
+  // ✅ CORRECT (Spring Boot 3.x)
+  import jakarta.annotation.PostConstruct;
+  ```
+
+
+### Vérification API existante
+- **TOUJOURS vérifier** les noms de méthodes des services référencés **AVANT** d'appeler
+- **Lire le service** pour connaître signature exacte
+  ```java
+  // ❌ ERREUR si service a obtenirTousLesPatients()
+  patientService.obtenirTousPatients();
+  
+  // ✅ CORRECT - Vérifier signature réelle
+  patientService.obtenirTousLesPatients();
+  ```
+
+
+### JavaFX FXML - Correspondance fx:id
+- **fx:id DOIT correspondre EXACTEMENT** au nom du champ @FXML Java (case-sensitive)
+  ```xml
+  <!-- ❌ INTERDIT si Java field = colDateAdmin -->
+  <TableColumn fx:id="colDateAdministration"/>
+  
+  <!-- ✅ CORRECT -->
+  <TableColumn fx:id="colDateAdmin"/>
+  ```
+  ```java
+  @FXML private TableColumn<X, LocalDate> colDateAdmin; // Nom identique !
+  ```
+
+
+### JavaFX FXML - Format Insets/Padding
+- **Format obligatoire** : "top right bottom left" (4 valeurs) OU balise `<Insets>`
+  ```xml
+  <!-- ❌ INTERDIT -->
+  <HBox style="-fx-padding: 10;">
+  <TableView BorderPane.margin="10"/>
+  
+  <!-- ✅ CORRECT - Option 1 : 4 valeurs -->
+  <HBox style="-fx-padding: 10 15 10 15;">
+  
+  <!-- ✅ CORRECT - Option 2 : Balise Insets -->
+  <TableView>
+      <BorderPane.margin>
+          <Insets top="10" right="15" bottom="10" left="15"/>
+      </BorderPane.margin>
+  </TableView>
+  ```
+
+
+### Validation logique mentale
+- **Tester mentalement** la logique avant génération
+- **Cas critique** : Calculs de dates/temps
+  ```java
+  // ❌ ERREUR LOGIQUE - Period.getDays() retourne jours du mois, PAS total
+  int ageJours = Period.between(naissance, aujourdhui).getDays();
+  
+  // ✅ CORRECT - ChronoUnit pour total de jours
+  long ageJours = ChronoUnit.DAYS.between(naissance, aujourdhui);
+  ```
+
+
+### Getters Boolean vs boolean
+- **Convention Java standard** :
+  * `Boolean` (objet) → `getObligatoire()`
+  * `boolean` (primitif) → `isObligatoire()`
+  ```java
+  // ✅ CORRECT
+  private Boolean obligatoire;
+  public Boolean getObligatoire() { return obligatoire; }
+  
+  private boolean actif;
+  public boolean isActif() { return actif; }
+  ```
+
+
+### Checklist avant génération
+Avant de générer un fichier, vérifier :
+- [ ] Identifiants sans accents/apostrophes (ASCII pur)
+- [ ] Imports `jakarta.*` (Spring Boot 3.x)
+- [ ] API existante consultée (noms méthodes exacts)
+- [ ] fx:id = champs @FXML Java (si FXML)
+- [ ] Format Insets correct (si FXML)
+- [ ] Logique testée mentalement (calculs critiques)
+
+
+---
+
+
 ## STRUCTURE PROJET (Où créer les fichiers)
 
 

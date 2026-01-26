@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.healthcenter.controller.RapportController"
+      spacing="20" style="-fx-padding: 20; -fx-background-color: #ecf0f1;">
+    
+    <!-- TITRE -->
+    <Label text="📄 GÉNÉRATION DE RAPPORT" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    
+    <Separator/>
+    
+    <!-- FORMULAIRE -->
+    <GridPane hgap="10" vgap="15">
+        <padding>
+            <Insets top="10"/>
+        </padding>
+        
+        <!-- Type de rapport -->
+        <Label text="Type de rapport *" GridPane.columnIndex="0" GridPane.rowIndex="0"
+               style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="typeRapportCombo" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                  prefWidth="400"/>
+        
+        <!-- Période -->
+        <Label text="Période *" GridPane.columnIndex="0" GridPane.rowIndex="1"
+               style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="periodeCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  prefWidth="400"/>
+        
+        <!-- Date début (visible si personnalisé) -->
+        <Label text="Du" GridPane.columnIndex="0" GridPane.rowIndex="2"
+               style="-fx-font-weight: bold;"/>
+        <DatePicker fx:id="dateDebutPicker" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                   prefWidth="400"/>
+        
+        <!-- Date fin -->
+        <Label text="Au" GridPane.columnIndex="0" GridPane.rowIndex="3"
+               style="-fx-font-weight: bold;"/>
+        <DatePicker fx:id="dateFinPicker" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                   prefWidth="400"/>
+        
+        <!-- Format -->
+        <Label text="Format *" GridPane.columnIndex="0" GridPane.rowIndex="4"
+               style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="formatCombo" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                  prefWidth="400"/>
+    </GridPane>
+    
+    <Separator/>
+    
+    <!-- APERÇU -->
+    <VBox spacing="10">
+        <Label text="Aperçu du contenu" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+        
+        <TextArea fx:id="apercuTextArea" prefHeight="200" editable="false"
+                  style="-fx-background-color: white; -fx-border-color: #bdc3c7; -fx-border-radius: 5;"/>
+        
+        <Button text="👁️ Afficher aperçu" onAction="#handleAfficherApercu"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 15;"/>
+    </VBox>
+    
+    <!-- BARRE DE PROGRESSION -->
+    <ProgressBar fx:id="progressBar" prefWidth="Infinity" visible="false"/>
+    
+    <!-- STATUT -->
+    <Label fx:id="statusLabel" text="" style="-fx-text-fill: #3498db; -fx-font-weight: bold;"/>
+    
+    <!-- BOUTONS ACTION -->
+    <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+        <Button text="❌ Annuler" onAction="#handleAnnuler"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+        <Button fx:id="btnGenerer" text="📥 Générer" onAction="#handleGenerer"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10 30;"/>
+    </HBox>
+    
+</VBox>

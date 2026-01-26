@@ -20,6 +20,14 @@ public class Consultation {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
     
+    /**
+     * RELATION : Plusieurs consultations → 1 Personnel.
+     * Personnel qui a effectué la consultation.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personnel_id")
+    private Personnel personnel;
+    
     @Column(nullable = false)
     private LocalDateTime dateConsultation;
     
@@ -55,4 +63,7 @@ public class Consultation {
     
     public String getPrescription() { return prescription; }
     public void setPrescription(String prescription) { this.prescription = prescription; }
+    
+    public Personnel getPersonnel() { return personnel; }
+    public void setPersonnel(Personnel personnel) { this.personnel = personnel; }
 }

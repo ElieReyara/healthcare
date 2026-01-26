@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.healthcenter.controller.DashboardController"
+            stylesheets="@../styles.css">
+    
+    <!-- EN-TÊTE -->
+    <top>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 15; -fx-background-color: #2c3e50;">
+            <Label text="📊 TABLEAU DE BORD" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnActualiser" text="🔄 Actualiser" onAction="#handleActualiser"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+            <Button fx:id="btnGenererRapport" text="📄 Générer Rapport" onAction="#handleGenererRapport"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+            <Button fx:id="btnExporter" text="💾 Exporter" onAction="#handleExporter"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
+        </HBox>
+    </top>
+    
+    <!-- CONTENU PRINCIPAL -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #ecf0f1;">
+            <VBox spacing="20" style="-fx-padding: 20;">
+                
+                <!-- SECTION KPIs -->
+                <VBox spacing="15">
+                    <Label text="INDICATEURS CLÉS" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                    
+                    <GridPane hgap="15" vgap="15">
+                        <!-- Tuile Patients -->
+                        <VBox style="-fx-background-color: #3498db; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="250" prefHeight="120">
+                            <Label text="PATIENTS" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbPatientsLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label fx:id="nbPatientsMoisLabel" text="+ 0 ce mois" 
+                                   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                        
+                        <!-- Tuile Consultations -->
+                        <VBox style="-fx-background-color: #27ae60; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="250" prefHeight="120">
+                            <Label text="CONSULTATIONS" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbConsultationsLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label fx:id="nbConsultationsMoisLabel" text="0 ce mois" 
+                                   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                        
+                        <!-- Tuile Vaccinations -->
+                        <VBox style="-fx-background-color: #9b59b6; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="2" GridPane.rowIndex="0" prefWidth="250" prefHeight="120">
+                            <Label text="VACCINATIONS" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbVaccinationsLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label fx:id="nbVaccinationsMoisLabel" text="+ 0 ce mois" 
+                                   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                        
+                        <!-- Tuile Médicaments -->
+                        <VBox style="-fx-background-color: #e74c3c; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="250" prefHeight="120">
+                            <Label text="MÉDICAMENTS EN STOCK" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbMedicamentsLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label fx:id="nbMedicamentsRuptureLabel" text="0 en rupture" 
+                                   style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                        
+                        <!-- Tuile Personnel -->
+                        <VBox style="-fx-background-color: #f39c12; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="250" prefHeight="120">
+                            <Label text="PERSONNEL ACTIF" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbPersonnelLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label text="membres" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                        
+                        <!-- Tuile Consultations Semaine -->
+                        <VBox style="-fx-background-color: #16a085; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="2" GridPane.rowIndex="1" prefWidth="250" prefHeight="120">
+                            <Label text="CETTE SEMAINE" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbConsultationsSemaineLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label text="consultations" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                        
+                        <!-- Tuile Consultations Aujourd'hui -->
+                        <VBox style="-fx-background-color: #e67e22; -fx-padding: 20; -fx-background-radius: 10;"
+                              GridPane.columnIndex="0" GridPane.rowIndex="2" prefWidth="250" prefHeight="120">
+                            <Label text="AUJOURD'HUI" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                            <Label fx:id="nbConsultationsAujourdhuiLabel" text="0" 
+                                   style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+                            <Label text="consultations" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-opacity: 0.9;"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+                
+                <!-- SECTION GRAPHIQUES -->
+                <VBox spacing="15" style="-fx-padding: 20 0 0 0;">
+                    <Label text="GRAPHIQUES STATISTIQUES" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                    
+                    <GridPane hgap="15" vgap="15">
+                        <!-- Graphique Répartition Sexe -->
+                        <VBox style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;"
+                              GridPane.columnIndex="0" GridPane.rowIndex="0" prefWidth="400" prefHeight="350">
+                            <PieChart fx:id="repartitionSexeChart" title="Répartition Patients par Sexe" 
+                                     prefHeight="300" legendVisible="true"/>
+                        </VBox>
+                        
+                        <!-- Graphique Consultations 6 Mois -->
+                        <VBox style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;"
+                              GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="400" prefHeight="350">
+                            <BarChart fx:id="consultationsMoisChart" title="Consultations 6 Derniers Mois" 
+                                     prefHeight="300" legendVisible="true">
+                                <xAxis>
+                                    <CategoryAxis label="Mois"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Nombre" side="LEFT"/>
+                                </yAxis>
+                            </BarChart>
+                        </VBox>
+                        
+                        <!-- Graphique Maladies Fréquentes -->
+                        <VBox style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;"
+                              GridPane.columnIndex="0" GridPane.rowIndex="1" prefWidth="400" prefHeight="350">
+                            <BarChart fx:id="maladiesFrequentesChart" title="Top 10 Maladies Fréquentes" 
+                                     prefHeight="300" legendVisible="true">
+                                <xAxis>
+                                    <CategoryAxis label="Diagnostic"/>
+                                </xAxis>
+                                <yAxis>
+                                    <NumberAxis label="Nombre" side="LEFT"/>
+                                </yAxis>
+                            </BarChart>
+                        </VBox>
+                        
+                        <!-- Graphique Couverture Vaccinale -->
+                        <VBox style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 10;"
+                              GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="400" prefHeight="350">
+                            <PieChart fx:id="couvertureVaccinaleChart" title="Couverture Vaccinale" 
+                                     prefHeight="300" legendVisible="true"/>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+                
+            </VBox>
+        </ScrollPane>
+    </center>
+    
+    <!-- PIED DE PAGE -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-padding: 10; -fx-background-color: #34495e;">
+            <Label fx:id="dateGenerationLabel" text="Dernière actualisation : --/--/---- --:--" 
+                   style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

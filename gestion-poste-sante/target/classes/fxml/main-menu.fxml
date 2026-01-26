@@ -30,8 +30,10 @@ Controller : com.healthcenter.controller.MainMenuController
                     <MenuItem text="🏥 Consultations" onAction="#handleConsultations"/>
                     <MenuItem text="💊 Médicaments" onAction="#handleMedicaments"/>
                     <MenuItem text="💉 Vaccinations" onAction="#handleVaccinations"/>
+                    <MenuItem text="👨‍⚕️ Personnel" onAction="#handlePersonnel"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="👨‍⚕️ Personnel (À venir)" disable="true"/>
+                    <MenuItem text="📊 Statistiques" onAction="#handleStatistiques"/>
+                    <MenuItem text="📄 Rapports" onAction="#handleRapports"/>
                 </Menu>
                 
                 <!-- Menu Aide -->
@@ -74,8 +76,12 @@ Controller : com.healthcenter.controller.MainMenuController
                                style="-fx-font-size: 14px;"/>
                         <Label text="✅ Vaccinations - Calendrier vaccinal + Rappels" 
                                style="-fx-font-size: 14px;"/>
-                        <Label text="⏳ Personnel - Gestion du personnel médical (À venir)" 
-                               style="-fx-font-size: 14px; -fx-text-fill: #95a5a6;"/>
+                        <Label text="✅ Personnel - Gestion du personnel médical" 
+                               style="-fx-font-size: 14px;"/>
+                        <Label text="✅ Statistiques - Tableaux de bord et analyses" 
+                               style="-fx-font-size: 14px;"/>
+                        <Label text="✅ Rapports - Génération PDF/Excel" 
+                               style="-fx-font-size: 14px;"/>
                     </VBox>
                 </VBox>
             </center>

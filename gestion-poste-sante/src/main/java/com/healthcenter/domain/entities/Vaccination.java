@@ -24,6 +24,14 @@ public class Vaccination {
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
     
+    /**
+     * RELATION : Plusieurs vaccinations → 1 Personnel.
+     * Personnel qui a administré la vaccination.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "personnel_id")
+    private Personnel personnel;
+    
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private TypeVaccin vaccin;
@@ -207,5 +215,13 @@ public class Vaccination {
     
     public void setDateMiseAJour(LocalDate dateMiseAJour) {
         this.dateMiseAJour = dateMiseAJour;
+    }
+    
+    public Personnel getPersonnel() {
+        return personnel;
+    }
+    
+    public void setPersonnel(Personnel personnel) {
+        this.personnel = personnel;
     }
 }
