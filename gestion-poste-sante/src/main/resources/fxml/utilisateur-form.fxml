@@ -24,7 +24,7 @@
         <PasswordField fx:id="passwordField" promptText="minimum 6 caractères" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
         <Label text="Personnel *" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="personnelCombo" promptText="Sélectionner un personnel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="personnelCombo" promptText="Sélectionner un personnel" onAction="#handlePersonnelSelected" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
         <Label text="Rôle *" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
         <ComboBox fx:id="roleCombo" promptText="Choisir un rôle" GridPane.rowIndex="3" GridPane.columnIndex="1"/>

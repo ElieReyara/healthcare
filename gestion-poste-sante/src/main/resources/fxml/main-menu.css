@@ -14,3 +14,20 @@
 .menu-item:hover .label {
     -fx-text-fill: #2c3e50;
 }
+
+.button {
+    -fx-cursor: hand;
+    -fx-transition: none;
+}
+
+.button:hover {
+    -fx-opacity: 0.94;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 6, 0.2, 0, 1);
+}
+
+.button:armed {
+    -fx-opacity: 0.80;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 3, 0.2, 0, 0);
+}

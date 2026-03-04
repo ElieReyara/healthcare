@@ -2,6 +2,7 @@ package com.healthcenter.service;
 
 import com.healthcenter.domain.entities.Utilisateur;
 import com.healthcenter.domain.entities.Personnel;
+import com.healthcenter.domain.enums.FonctionPersonnel;
 import com.healthcenter.domain.enums.RoleUtilisateur;
 import com.healthcenter.repository.PersonnelRepository;
 import com.healthcenter.repository.UtilisateurRepository;
@@ -65,10 +66,6 @@ public class UtilisateurService {
         if (personnelId == null) {
             throw new IllegalArgumentException("Le personnel est obligatoire");
         }
-        if (role == null) {
-            throw new IllegalArgumentException("Le rôle est obligatoire");
-        }
-
         String normalizedUsername = username.trim();
         if (utilisateurRepository.findByUsername(normalizedUsername).isPresent()) {
             throw new IllegalArgumentException("Le nom d'utilisateur existe déjà");
@@ -85,17 +82,33 @@ public class UtilisateurService {
             throw new IllegalArgumentException("Ce personnel possède déjà un compte utilisateur");
         }
 
+        RoleUtilisateur roleFinal = role != null ? role : determinerRoleParFonction(personnel.getFonction());
+
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setUsername(normalizedUsername);
         utilisateur.setPassword(passwordEncoder.encode(password));
         utilisateur.setNom(personnel.getNom());
         utilisateur.setPrenom(personnel.getPrenom());
-        utilisateur.setRole(role);
+        utilisateur.setRole(roleFinal);
         utilisateur.setActif(true);
         utilisateur.setDateCreation(LocalDateTime.now());
         utilisateur.setPersonnel(personnel);
 
         return utilisateurRepository.save(utilisateur);
+    }
+
+    public RoleUtilisateur determinerRoleParFonction(FonctionPersonnel fonctionPersonnel) {
+        if (fonctionPersonnel == null) {
+            return RoleUtilisateur.RECEPTIONNISTE;
+        }
+
+        return switch (fonctionPersonnel) {
+            case MEDECIN -> RoleUtilisateur.MEDECIN;
+            case INFIRMIER, AIDE_SOIGNANT, PHARMACIEN, TECHNICIEN_LABO -> RoleUtilisateur.INFIRMIER;
+            case SAGE_FEMME -> RoleUtilisateur.SAGE_FEMME;
+            case GESTIONNAIRE -> RoleUtilisateur.GESTIONNAIRE;
+            case RECEPTIONNISTE -> RoleUtilisateur.RECEPTIONNISTE;
+        };
     }
     
     /**

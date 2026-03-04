@@ -40,6 +40,7 @@ public class UtilisateurFormController {
     public void initialize() {
         roleCombo.setItems(FXCollections.observableArrayList(RoleUtilisateur.values()));
         roleCombo.setValue(RoleUtilisateur.RECEPTIONNISTE);
+        roleCombo.setDisable(true);
 
         personnelCombo.setConverter(new StringConverter<Personnel>() {
             @Override
@@ -91,6 +92,16 @@ public class UtilisateurFormController {
         } catch (Exception e) {
             showValidation("Erreur inattendue : " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void handlePersonnelSelected() {
+        Personnel personnel = personnelCombo.getValue();
+        if (personnel == null || personnel.getFonction() == null) {
+            roleCombo.setValue(RoleUtilisateur.RECEPTIONNISTE);
+            return;
+        }
+        roleCombo.setValue(utilisateurService.determinerRoleParFonction(personnel.getFonction()));
     }
 
     @FXML

@@ -377,7 +377,6 @@ public class VaccinationController {
         vaccinFilter.setValue(null);
         rappelsSeulementCheckbox.setSelected(false);
         chargerDonnees();
-        showInfo("Actualisation", "Données rechargées");
     }
     
     

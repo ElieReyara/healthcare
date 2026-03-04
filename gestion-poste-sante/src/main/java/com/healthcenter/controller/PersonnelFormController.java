@@ -71,6 +71,9 @@ public class PersonnelFormController {
         
         // Listener changement fonction
         fonctionCombo.setOnAction(event -> handleFonctionSelected());
+
+        numeroMatriculeField.setDisable(true);
+        numeroMatriculeField.setPromptText("Généré automatiquement (>= 1000)");
         
         errorLabel.setVisible(false);
     }
@@ -80,6 +83,8 @@ public class PersonnelFormController {
      */
     public void initForCreation() {
         actifCheckbox.setSelected(true);
+        numeroMatriculeField.clear();
+        numeroMatriculeField.setText("Automatique");
         personnelEnCours = null;
     }
     

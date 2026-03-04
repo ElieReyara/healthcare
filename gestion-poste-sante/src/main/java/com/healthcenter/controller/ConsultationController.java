@@ -353,7 +353,6 @@ public class ConsultationController {
         searchField.clear();
         
         chargerDonnees();
-        showInfo("Actualisation", "Données rechargées");
     }
     
     

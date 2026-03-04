@@ -53,15 +53,8 @@ public class PersonnelService {
     public Personnel creerPersonnel(PersonnelDTO dto) {
         valider(dto);
         
-        // Vérifier unicité matricule si fourni
-        if (dto.getNumeroMatricule() != null && !dto.getNumeroMatricule().trim().isEmpty()) {
-            Optional<Personnel> existant = personnelRepository.findByNumeroMatricule(dto.getNumeroMatricule());
-            if (existant.isPresent()) {
-                throw new IllegalArgumentException("Un personnel avec ce matricule existe déjà : " + dto.getNumeroMatricule());
-            }
-        }
-        
         Personnel personnel = mapToEntity(dto);
+        personnel.setNumeroMatricule(genererNumeroMatricule());
         personnel.setActif(dto.getActif() != null ? dto.getActif() : true);
         
         return personnelRepository.save(personnel);
@@ -149,14 +142,6 @@ public class PersonnelService {
         Personnel personnel = personnelRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Personnel introuvable avec ID : " + id));
         
-        // Vérifier unicité matricule si modifié
-        if (dto.getNumeroMatricule() != null && !dto.getNumeroMatricule().trim().isEmpty()) {
-            Optional<Personnel> existant = personnelRepository.findByNumeroMatricule(dto.getNumeroMatricule());
-            if (existant.isPresent() && !existant.get().getId().equals(id)) {
-                throw new IllegalArgumentException("Un autre personnel a déjà ce matricule : " + dto.getNumeroMatricule());
-            }
-        }
-        
         // Mise à jour champs
         personnel.setNom(dto.getNom());
         personnel.setPrenom(dto.getPrenom());
@@ -165,7 +150,6 @@ public class PersonnelService {
         personnel.setTelephone(dto.getTelephone());
         personnel.setEmail(dto.getEmail());
         personnel.setAdresse(dto.getAdresse());
-        personnel.setNumeroMatricule(dto.getNumeroMatricule());
         personnel.setDateEmbauche(dto.getDateEmbauche());
         
         if (dto.getActif() != null) {
@@ -173,6 +157,30 @@ public class PersonnelService {
         }
         
         return personnelRepository.save(personnel);
+    }
+
+    private String genererNumeroMatricule() {
+        int maxNumero = 999;
+
+        for (Personnel personnel : personnelRepository.findAll()) {
+            String matricule = personnel.getNumeroMatricule();
+            if (matricule != null && matricule.matches("\\d+")) {
+                try {
+                    int valeur = Integer.parseInt(matricule);
+                    if (valeur > maxNumero) {
+                        maxNumero = valeur;
+                    }
+                } catch (NumberFormatException ignored) {
+                }
+            }
+        }
+
+        int candidat = Math.max(1000, maxNumero + 1);
+        while (personnelRepository.findByNumeroMatricule(String.valueOf(candidat)).isPresent()) {
+            candidat++;
+        }
+
+        return String.valueOf(candidat);
     }
     
     /**

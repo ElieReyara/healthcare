@@ -566,6 +566,13 @@ mvn clean install
 - **Build** : Maven 3.9+
 - **Tests** : JUnit 5 + Mockito
 
+### Gestion des profils et personnel (mise à jour)
+- La création d'un utilisateur est liée à un **personnel existant** (sélection obligatoire).
+- Un personnel ne peut avoir **qu'un seul compte utilisateur**.
+- Le **matricule personnel** est généré automatiquement en série numérique à partir de `1000`.
+- Le **rôle utilisateur** est auto-assigné selon la fonction du personnel (ex: Médecin → rôle Médecin, Réceptionniste → rôle Réceptionniste).
+- Le profil **Réceptionniste** est en lecture seule sur Patients/Consultations, avec accès Statistiques et Rapports.
+
 ---
 
 ## 🚀 Version 1.0.0 - PRODUCTION READY

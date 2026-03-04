@@ -112,4 +112,5 @@ com\healthcenter\controller\PatientController.class
 com\healthcenter\controller\UtilisateurFormController.class
 com\healthcenter\security\SessionManager.class
 com\healthcenter\service\AuditService.class
+com\healthcenter\service\UtilisateurService$1.class
 com\healthcenter\config\SecurityConfig.class
