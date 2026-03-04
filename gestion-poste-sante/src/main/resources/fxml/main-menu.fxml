@@ -27,14 +27,15 @@ Controller : com.healthcenter.controller.MainMenuController
                 
                 <!-- Menu Modules -->
                 <Menu text="Modules" style="-fx-text-fill: white;">
-                    <MenuItem text="Patients" onAction="#handlePatients"/>
-                    <MenuItem text="Consultations" onAction="#handleConsultations"/>
-                    <MenuItem text="Médicaments" onAction="#handleMedicaments"/>
-                    <MenuItem text="Vaccinations" onAction="#handleVaccinations"/>
-                    <MenuItem text="Personnel" onAction="#handlePersonnel"/>
+                    <MenuItem fx:id="menuPatients" text="Patients" onAction="#handlePatients"/>
+                    <MenuItem fx:id="menuConsultations" text="Consultations" onAction="#handleConsultations"/>
+                    <MenuItem fx:id="menuMedicaments" text="Médicaments" onAction="#handleMedicaments"/>
+                    <MenuItem fx:id="menuVaccinations" text="Vaccinations" onAction="#handleVaccinations"/>
+                    <MenuItem fx:id="menuPersonnel" text="Personnel" onAction="#handlePersonnel"/>
+                    <MenuItem fx:id="menuUtilisateurs" text="Utilisateurs" onAction="#handleUtilisateurs"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="Statistiques" onAction="#handleStatistiques"/>
-                    <MenuItem text="Rapports" onAction="#handleRapports"/>
+                    <MenuItem fx:id="menuStatistiques" text="Statistiques" onAction="#handleStatistiques"/>
+                    <MenuItem fx:id="menuRapports" text="Rapports" onAction="#handleRapports"/>
                 </Menu>
                 
                 <!-- Menu Aide -->

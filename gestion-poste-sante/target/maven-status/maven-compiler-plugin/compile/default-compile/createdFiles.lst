@@ -16,6 +16,7 @@ com\healthcenter\controller\LoginController.class
 com\healthcenter\config\InitialUserConfig.class
 com\healthcenter\controller\PatientFormController.class
 com\healthcenter\domain\entities\DisponibilitePersonnel.class
+com\healthcenter\controller\UtilisateurController.class
 com\healthcenter\controller\MedicamentController$1.class
 com\healthcenter\domain\enums\PeriodeStatistique.class
 com\healthcenter\domain\entities\Personnel.class
@@ -107,6 +108,7 @@ com\healthcenter\service\UtilisateurService.class
 com\healthcenter\controller\PersonnelDetailsController$1.class
 com\healthcenter\controller\PersonnelController$2.class
 com\healthcenter\controller\PatientController.class
+com\healthcenter\controller\UtilisateurFormController.class
 com\healthcenter\security\SessionManager.class
 com\healthcenter\service\AuditService.class
 com\healthcenter\config\SecurityConfig.class

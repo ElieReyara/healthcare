@@ -1,7 +1,9 @@
 package com.healthcenter.controller;
 
 import com.healthcenter.domain.entities.Personnel;
+import com.healthcenter.domain.enums.RoleUtilisateur;
 import com.healthcenter.domain.enums.FonctionPersonnel;
+import com.healthcenter.security.SessionManager;
 import com.healthcenter.service.PersonnelService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,6 +70,7 @@ public class PersonnelController {
     public void initialize() {
         try {
             configurerColonnes();
+            appliquerVisibiliteColonnesParRole();
             configurerFiltres();
             chargerDonnees();
         } catch (Exception e) {
@@ -121,6 +124,16 @@ public class PersonnelController {
         });
         
         personnelTable.setItems(personnelData);
+    }
+
+    private void appliquerVisibiliteColonnesParRole() {
+        boolean isAdmin = SessionManager.getInstance().hasRole(RoleUtilisateur.ADMIN);
+
+        // Le matricule reste visible pour faciliter l'identification
+        colMatricule.setVisible(true);
+
+        // Masquer l'ID pour les profils non-admin
+        colId.setVisible(isAdmin);
     }
     
     /**

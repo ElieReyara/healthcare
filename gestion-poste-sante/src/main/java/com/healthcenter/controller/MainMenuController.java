@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -28,14 +29,24 @@ public class MainMenuController {
 
     @FXML
     private Label currentModuleLabel;
+
+    @FXML private MenuItem menuPatients;
+    @FXML private MenuItem menuConsultations;
+    @FXML private MenuItem menuMedicaments;
+    @FXML private MenuItem menuVaccinations;
+    @FXML private MenuItem menuPersonnel;
+    @FXML private MenuItem menuUtilisateurs;
+    @FXML private MenuItem menuStatistiques;
+    @FXML private MenuItem menuRapports;
     
     /**
      * Méthode appelée automatiquement après chargement FXML.
      */
     @FXML
     public void initialize() {
+        appliquerPermissionsMenu();
         // Charger la vue Patients par défaut au démarrage
-        chargerPatients();
+        chargerModuleParDefaut();
     }
     
     /**
@@ -43,6 +54,7 @@ public class MainMenuController {
      */
     @FXML
     private void handlePatients() {
+        if (!peutAccederModule("PATIENTS")) return;
         chargerPatients();
     }
     
@@ -51,6 +63,7 @@ public class MainMenuController {
      */
     @FXML
     private void handleConsultations() {
+        if (!peutAccederModule("CONSULTATIONS")) return;
         chargerConsultations();
     }
     
@@ -59,6 +72,7 @@ public class MainMenuController {
      */
     @FXML
     private void handleMedicaments() {
+        if (!peutAccederModule("MEDICAMENTS")) return;
         chargerMedicaments();
     }
     
@@ -67,6 +81,7 @@ public class MainMenuController {
      */
     @FXML
     private void handleVaccinations() {
+        if (!peutAccederModule("VACCINATIONS")) return;
         chargerVaccinations();
     }
     
@@ -75,7 +90,14 @@ public class MainMenuController {
      */
     @FXML
     private void handlePersonnel() {
+        if (!peutAccederModule("PERSONNEL")) return;
         chargerPersonnel();
+    }
+
+    @FXML
+    private void handleUtilisateurs() {
+        if (!peutAccederModule("UTILISATEURS")) return;
+        chargerUtilisateurs();
     }
     
     /**
@@ -83,6 +105,7 @@ public class MainMenuController {
      */
     @FXML
     private void handleStatistiques() {
+        if (!peutAccederModule("STATISTIQUES")) return;
         chargerStatistiques();
     }
     
@@ -91,7 +114,77 @@ public class MainMenuController {
      */
     @FXML
     private void handleRapports() {
+        if (!peutAccederModule("RAPPORTS")) return;
         chargerRapports();
+    }
+
+    private void chargerModuleParDefaut() {
+        if (SessionManager.getInstance().hasPermission("PATIENTS")) {
+            chargerPatients();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("CONSULTATIONS")) {
+            chargerConsultations();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("VACCINATIONS")) {
+            chargerVaccinations();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("MEDICAMENTS")) {
+            chargerMedicaments();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("PERSONNEL")) {
+            chargerPersonnel();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("UTILISATEURS")) {
+            chargerUtilisateurs();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("STATISTIQUES")) {
+            chargerStatistiques();
+            return;
+        }
+        if (SessionManager.getInstance().hasPermission("RAPPORTS")) {
+            chargerRapports();
+            return;
+        }
+
+        currentModuleLabel.setText("Module : Aucun accès");
+    }
+
+    private void appliquerPermissionsMenu() {
+        setMenuAccess(menuPatients, "PATIENTS");
+        setMenuAccess(menuConsultations, "CONSULTATIONS");
+        setMenuAccess(menuMedicaments, "MEDICAMENTS");
+        setMenuAccess(menuVaccinations, "VACCINATIONS");
+        setMenuAccess(menuPersonnel, "PERSONNEL");
+        setMenuAccess(menuUtilisateurs, "UTILISATEURS");
+        setMenuAccess(menuStatistiques, "STATISTIQUES");
+        setMenuAccess(menuRapports, "RAPPORTS");
+    }
+
+    private void setMenuAccess(MenuItem menuItem, String modulePermission) {
+        if (menuItem == null) {
+            return;
+        }
+        boolean allowed = SessionManager.getInstance().hasPermission(modulePermission);
+        menuItem.setVisible(allowed);
+        menuItem.setDisable(!allowed);
+    }
+
+    private boolean peutAccederModule(String modulePermission) {
+        boolean allowed = SessionManager.getInstance().hasPermission(modulePermission);
+        if (!allowed) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Accès refusé");
+            alert.setHeaderText(null);
+            alert.setContentText("Votre profil ne dispose pas des permissions pour ce module.");
+            alert.showAndWait();
+        }
+        return allowed;
     }
     
     @FXML
@@ -174,6 +267,10 @@ public class MainMenuController {
      */
     private void chargerPersonnel() {
         chargerVue("/fxml/personnel-list.fxml", "Personnel");
+    }
+
+    private void chargerUtilisateurs() {
+        chargerVue("/fxml/utilisateur-list.fxml", "Utilisateurs");
     }
     
     /**

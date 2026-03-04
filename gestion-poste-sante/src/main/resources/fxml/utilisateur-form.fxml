@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.healthcenter.controller.UtilisateurFormController"
+      spacing="12" style="-fx-padding: 20;" prefWidth="460">
+
+    <Label text="Créer un profil" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Separator/>
+
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints minWidth="140"/>
+            <ColumnConstraints minWidth="260" hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <Label text="Username *" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="usernameField" promptText="username" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Mot de passe *" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="passwordField" promptText="minimum 6 caractères" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Nom *" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="nomField" promptText="Nom" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Prénom *" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="prenomField" promptText="Prénom" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Rôle *" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="roleCombo" promptText="Choisir un rôle" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <Label fx:id="errorLabel" visible="false" wrapText="true" style="-fx-text-fill: #c0392b; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+        <Button text="Créer" onAction="#handleSave" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </HBox>
+</VBox>

@@ -66,7 +66,29 @@ public class SessionManager {
         if (!isConnecte()) {
             return false;
         }
-        return utilisateurConnecte.getRole().hasAccess(module);
+
+        RoleUtilisateur role = utilisateurConnecte.getRole();
+        if (role == null) {
+            return false;
+        }
+
+        if (role.hasAccess(module)) {
+            return true;
+        }
+
+        // Permissions dérivées (ex: PATIENTS_READ, PATIENTS_CREATE)
+        for (String permission : role.getPermissions()) {
+            if (permission != null && permission.startsWith(module + "_")) {
+                return true;
+            }
+        }
+
+        // Cas spécifiques de permissions "limited"
+        if ("CONSULTATIONS".equals(module) && role.hasAccess("CONSULTATIONS_LIMITED")) {
+            return true;
+        }
+
+        return false;
     }
     
     /**
