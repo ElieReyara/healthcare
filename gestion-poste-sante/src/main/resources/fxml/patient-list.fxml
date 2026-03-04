@@ -52,13 +52,13 @@ Controller = com.healthcenter.controller.PatientController (lien avec le code Ja
     <!-- BOTTOM (boutons d'action) -->
     <bottom>
         <HBox spacing="10" alignment="CENTER" style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
-            <Button text="➕ Nouveau Patient" 
+             <Button fx:id="btnNewPatient" text="➕ Nouveau Patient" 
                    onAction="#handleNewPatient"
                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;"/>
-            <Button text="✏️ Modifier" 
+             <Button fx:id="btnEditPatient" text="✏️ Modifier" 
                    onAction="#handleEditPatient"
                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;"/>
-            <Button text="🗑️ Supprimer" 
+             <Button fx:id="btnDeletePatient" text="🗑️ Supprimer" 
                    onAction="#handleDeletePatient"
                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;"/>
         </HBox>

@@ -28,7 +28,7 @@ public enum RoleUtilisateur {
     )),
     
     RECEPTIONNISTE("Réceptionniste", Arrays.asList(
-        "PATIENTS_READ", "PATIENTS_CREATE"
+        "PATIENTS_READ", "CONSULTATIONS_LIMITED", "RAPPORTS", "STATISTIQUES"
     ));
     
     private final String libelle;

@@ -83,16 +83,16 @@ Controller : com.healthcenter.controller.ConsultationController
           alignment="CENTER_RIGHT" 
           style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
         
-        <Button text="➕ Nouvelle Consultation" 
+        <Button fx:id="btnNouveau" text="➕ Nouvelle Consultation" 
                onAction="#handleNouveau"
                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-font-weight: bold;"
                defaultButton="true"/>
         
-        <Button text="✏️ Modifier" 
+        <Button fx:id="btnModifier" text="✏️ Modifier" 
                onAction="#handleModifier"
                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
         
-        <Button text="🗑️ Supprimer" 
+        <Button fx:id="btnSupprimer" text="🗑️ Supprimer" 
                onAction="#handleSupprimer"
                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
     </HBox>

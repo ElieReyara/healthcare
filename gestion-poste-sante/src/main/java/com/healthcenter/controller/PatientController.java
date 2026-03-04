@@ -1,6 +1,8 @@
 package com.healthcenter.controller;
 
 import com.healthcenter.domain.entities.Patient;
+import com.healthcenter.domain.enums.RoleUtilisateur;
+import com.healthcenter.security.SessionManager;
 import com.healthcenter.service.PatientService;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -53,6 +55,9 @@ public class PatientController {
     @FXML private TableColumn<Patient, String> colSexe;
     @FXML private TableColumn<Patient, String> colTelephone;
     @FXML private TableColumn<Patient, String> colNumeroCarnet;
+    @FXML private Button btnNewPatient;
+    @FXML private Button btnEditPatient;
+    @FXML private Button btnDeletePatient;
     
     // Liste observable (se met à jour automatiquement dans l'UI)
     private ObservableList<Patient> patientData = FXCollections.observableArrayList();
@@ -93,9 +98,19 @@ public class PatientController {
         
         // Lier la liste observable au tableau
         patientTable.setItems(patientData);
+
+        appliquerRestrictionsReceptionniste();
         
         // Charger les données initiales
         loadAllPatients();
+    }
+
+    private void appliquerRestrictionsReceptionniste() {
+        if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+            btnNewPatient.setVisible(false);
+            btnEditPatient.setVisible(false);
+            btnDeletePatient.setVisible(false);
+        }
     }
     
     
@@ -129,6 +144,10 @@ public class PatientController {
     
     @FXML
         private void handleNewPatient() {
+            if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+                showWarning("Lecture seule", "Le profil réceptionniste ne peut pas créer de patient.");
+                return;
+            }
             try {
                 // Charger FXML du formulaire
                 FXMLLoader loader = new FXMLLoader(
@@ -167,6 +186,10 @@ public class PatientController {
 
         @FXML
         private void handleEditPatient() {
+            if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+                showWarning("Lecture seule", "Le profil réceptionniste ne peut pas modifier les patients.");
+                return;
+            }
             Patient selected = patientTable.getSelectionModel().getSelectedItem();
             
             if (selected == null) {
@@ -212,6 +235,10 @@ public class PatientController {
     
     @FXML
     private void handleDeletePatient() {
+        if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+            showWarning("Lecture seule", "Le profil réceptionniste ne peut pas supprimer de patient.");
+            return;
+        }
         Patient selected = patientTable.getSelectionModel().getSelectedItem();
         
         if (selected == null) {

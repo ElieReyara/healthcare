@@ -2,6 +2,8 @@ package com.healthcenter.controller;
 
 import com.healthcenter.domain.entities.Consultation;
 import com.healthcenter.domain.entities.Patient;
+import com.healthcenter.domain.enums.RoleUtilisateur;
+import com.healthcenter.security.SessionManager;
 import com.healthcenter.service.ConsultationService;
 import com.healthcenter.service.PatientService;
 import javafx.beans.property.SimpleObjectProperty;
@@ -53,6 +55,9 @@ public class ConsultationController {
     @FXML private TableColumn<Consultation, LocalDateTime> colDate;
     @FXML private TableColumn<Consultation, String> colSymptomes;
     @FXML private TableColumn<Consultation, String> colDiagnostic;
+    @FXML private Button btnNouveau;
+    @FXML private Button btnModifier;
+    @FXML private Button btnSupprimer;
     
     // Liste observable (se met à jour automatiquement dans l'UI)
     private ObservableList<Consultation> consultationData = FXCollections.observableArrayList();
@@ -130,9 +135,19 @@ public class ConsultationController {
         
         // SETUP COMBOBOX FILTRE PATIENTS
         setupPatientFilter();
+
+        appliquerRestrictionsReceptionniste();
         
         // Charger les données initiales
         chargerDonnees();
+    }
+
+    private void appliquerRestrictionsReceptionniste() {
+        if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+            btnNouveau.setVisible(false);
+            btnModifier.setVisible(false);
+            btnSupprimer.setVisible(false);
+        }
     }
     
     
@@ -181,6 +196,10 @@ public class ConsultationController {
      */
     @FXML
     private void handleNouveau() {
+        if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+            showWarning("Lecture seule", "Le profil réceptionniste ne peut pas créer de consultation.");
+            return;
+        }
         try {
             // Charger FXML du formulaire
             FXMLLoader loader = new FXMLLoader(
@@ -219,6 +238,10 @@ public class ConsultationController {
     
     @FXML
     private void handleModifier() {
+        if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+            showWarning("Lecture seule", "Le profil réceptionniste ne peut pas modifier les consultations.");
+            return;
+        }
         Consultation selected = consultationTable.getSelectionModel().getSelectedItem();
         
         if (selected == null) {
@@ -263,6 +286,10 @@ public class ConsultationController {
     
     @FXML
     private void handleSupprimer() {
+        if (SessionManager.getInstance().hasRole(RoleUtilisateur.RECEPTIONNISTE)) {
+            showWarning("Lecture seule", "Le profil réceptionniste ne peut pas supprimer de consultation.");
+            return;
+        }
         Consultation selected = consultationTable.getSelectionModel().getSelectedItem();
         
         if (selected == null) {
