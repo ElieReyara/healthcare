@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -72,6 +73,9 @@ public class DashboardController {
      */
     @FXML
     public void initialize() {
+        if (btnActualiser != null) {
+            btnActualiser.setOnAction(event -> handleActualiser());
+        }
         chargerDashboard();
     }
     
@@ -221,7 +225,15 @@ public class DashboardController {
      */
     @FXML
     private void handleActualiser() {
+        if (btnActualiser != null) {
+            btnActualiser.setDisable(true);
+        }
         chargerDashboard();
+        dateGenerationLabel.setText("Dernière actualisation : " +
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        if (btnActualiser != null) {
+            btnActualiser.setDisable(false);
+        }
     }
     
     /**

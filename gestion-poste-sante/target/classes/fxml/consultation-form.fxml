@@ -41,38 +41,50 @@ Controller : com.healthcenter.controller.ConsultationFormController
                  GridPane.columnIndex="1"
                  prefWidth="300"
                  promptText="Sélectionner un patient"/>
-        
-        <!-- LIGNE 1 : DATE CONSULTATION -->
-        <Label text="Date *" 
+
+        <!-- LIGNE 1 : PERSONNEL -->
+        <Label text="Personnel *" 
                GridPane.rowIndex="1" 
                GridPane.columnIndex="0"
                style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
         
+        <ComboBox fx:id="personnelCombo" 
+                 GridPane.rowIndex="1" 
+                 GridPane.columnIndex="1"
+                 prefWidth="300"
+                 promptText="Sélectionner le personnel"/>
+        
+        <!-- LIGNE 1 : DATE CONSULTATION -->
+        <Label text="Date *" 
+               GridPane.rowIndex="2" 
+               GridPane.columnIndex="0"
+               style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        
         <DatePicker fx:id="datePicker" 
-                   GridPane.rowIndex="1" 
+                   GridPane.rowIndex="2" 
                    GridPane.columnIndex="1"
                    promptText="jj/mm/aaaa"
                    prefWidth="200"/>
         
         <!-- LIGNE 2 : HEURE -->
         <Label text="Heure *" 
-               GridPane.rowIndex="2" 
+               GridPane.rowIndex="3" 
                GridPane.columnIndex="0"
                style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
         
         <TextField fx:id="heureField" 
-                  GridPane.rowIndex="2" 
+                  GridPane.rowIndex="3" 
                   GridPane.columnIndex="1"
                   promptText="HH:mm (ex: 14:30)"
                   prefWidth="120"/>
         
         <!-- LIGNE 3 : SYMPTÔMES -->
         <Label text="Symptômes" 
-               GridPane.rowIndex="3" 
+               GridPane.rowIndex="4" 
                GridPane.columnIndex="0"
                style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
         
-        <VBox GridPane.rowIndex="3" GridPane.columnIndex="1" spacing="5">
+        <VBox GridPane.rowIndex="4" GridPane.columnIndex="1" spacing="5">
             <TextArea fx:id="symptomesArea" 
                      promptText="Décrivez les symptômes rapportés par le patient..."
                      wrapText="true"
@@ -83,11 +95,11 @@ Controller : com.healthcenter.controller.ConsultationFormController
         
         <!-- LIGNE 4 : DIAGNOSTIC -->
         <Label text="Diagnostic" 
-               GridPane.rowIndex="4" 
+               GridPane.rowIndex="5" 
                GridPane.columnIndex="0"
                style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
         
-        <VBox GridPane.rowIndex="4" GridPane.columnIndex="1" spacing="5">
+        <VBox GridPane.rowIndex="5" GridPane.columnIndex="1" spacing="5">
             <TextArea fx:id="diagnosticArea" 
                      promptText="Diagnostic posé..."
                      wrapText="true"
@@ -98,11 +110,11 @@ Controller : com.healthcenter.controller.ConsultationFormController
         
         <!-- LIGNE 5 : PRESCRIPTION -->
         <Label text="Prescription" 
-               GridPane.rowIndex="5" 
+               GridPane.rowIndex="6" 
                GridPane.columnIndex="0"
                style="-fx-font-weight: bold; -fx-text-fill: #34495e;"/>
         
-        <VBox GridPane.rowIndex="5" GridPane.columnIndex="1" spacing="5">
+        <VBox GridPane.rowIndex="6" GridPane.columnIndex="1" spacing="5">
             <TextArea fx:id="prescriptionArea" 
                      promptText="Prescription médicale (médicaments, posologie, durée...)..."
                      wrapText="true"

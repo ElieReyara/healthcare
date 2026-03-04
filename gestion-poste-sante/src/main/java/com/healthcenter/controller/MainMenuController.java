@@ -1,9 +1,14 @@
 package com.healthcenter.controller;
 
+import com.healthcenter.App;
+import com.healthcenter.security.SessionManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,6 +25,9 @@ public class MainMenuController {
     
     @FXML
     private BorderPane contentPane;
+
+    @FXML
+    private Label currentModuleLabel;
     
     /**
      * Méthode appelée automatiquement après chargement FXML.
@@ -86,12 +94,23 @@ public class MainMenuController {
         chargerRapports();
     }
     
-    /**
-     * Handler Menu : Quitter
-     */
     @FXML
-    private void handleQuitter() {
-        Platform.exit();
+    private void handleDeconnexion() {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Déconnexion");
+        confirmation.setHeaderText(null);
+        confirmation.setContentText("Voulez-vous vous déconnecter ?");
+
+        if (confirmation.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
+            return;
+        }
+
+        SessionManager.getInstance().deconnecter();
+        if (App.getInstance() != null) {
+            App.getInstance().afficherLogin();
+        } else {
+            Platform.exit();
+        }
     }
     
     /**
@@ -103,9 +122,9 @@ public class MainMenuController {
             javafx.scene.control.Alert.AlertType.INFORMATION
         );
         alert.setTitle("À propos");
-        alert.setHeaderText("Gestion Poste de Santé");
+        alert.setHeaderText("HealthCare");
         alert.setContentText(
-            "Application de gestion pour poste de santé\n\n" +
+            "Application de gestion HealthCare\n\n" +
             "Version 2.2\n" +
             "© 2026 - Tous droits réservés\n\n" +
             "Modules disponibles :\n" +
@@ -186,6 +205,10 @@ public class MainMenuController {
             
             // Remplacer le contenu du BorderPane central
             contentPane.setCenter(vue);
+
+            if (currentModuleLabel != null) {
+                currentModuleLabel.setText("Module : " + nomModule);
+            }
             
             System.out.println("✅ Module " + nomModule + " chargé");
             

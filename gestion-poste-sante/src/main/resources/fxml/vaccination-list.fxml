@@ -35,16 +35,13 @@
             
             <!-- Ligne 2 : Boutons Alertes -->
             <HBox spacing="15" alignment="CENTER_LEFT">
-                <Button text="⚠️ Rappels en retard" onAction="#handleVoirRappelsEnRetard"
+                <Button text="Rappels en retard" onAction="#handleVoirRappelsEnRetard"
                         style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 
-                <Button text="🔔 Rappels prochains (7 jours)" onAction="#handleVoirRappelsProchains"
+                <Button text="Rappels prochains (7 jours)" onAction="#handleVoirRappelsProchains"
                         style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold;"/>
                 
                 <Region HBox.hgrow="ALWAYS"/>
-                
-                <Label text="💉 Gestion des Vaccinations" 
-                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1976D2;"/>
             </HBox>
         </VBox>
     </top>

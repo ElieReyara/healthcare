@@ -3,7 +3,7 @@
 # CONTEXT.MD COMPLET (Version finale)
 
 ```markdown
-# CONTEXT – Gestion Poste de Santé Communautaire
+# CONTEXT – HealthCare Communautaire
 
 **Dernière mise à jour :** 2026-03-04  
 **Version :** 1.0.0 (projet desktop JavaFX + Spring Boot)  

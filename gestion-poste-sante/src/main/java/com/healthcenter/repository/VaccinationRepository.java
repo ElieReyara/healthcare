@@ -18,6 +18,26 @@ import java.util.List;
  */
 @Repository
 public interface VaccinationRepository extends JpaRepository<Vaccination, Long> {
+
+    @Query("SELECT v FROM Vaccination v " +
+           "LEFT JOIN FETCH v.patient " +
+           "LEFT JOIN FETCH v.personnel " +
+           "ORDER BY v.dateAdministration DESC")
+    List<Vaccination> findAllWithRelations();
+
+    @Query("SELECT v FROM Vaccination v " +
+           "LEFT JOIN FETCH v.patient " +
+           "LEFT JOIN FETCH v.personnel " +
+           "WHERE v.patient.id = :patientId " +
+           "ORDER BY v.dateAdministration DESC")
+    List<Vaccination> findByPatientIdWithRelations(@Param("patientId") Long patientId);
+
+    @Query("SELECT v FROM Vaccination v " +
+           "LEFT JOIN FETCH v.patient " +
+           "LEFT JOIN FETCH v.personnel " +
+           "WHERE v.vaccin = :vaccin " +
+           "ORDER BY v.dateAdministration DESC")
+    List<Vaccination> findByVaccinWithRelations(@Param("vaccin") TypeVaccin vaccin);
     
     /**
      * Trouve toutes les vaccinations d'un patient.

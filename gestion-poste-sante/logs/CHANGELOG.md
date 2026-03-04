@@ -1,4 +1,4 @@
-# 📋 Changelog - Gestion Poste de Santé
+# 📋 Changelog - HealthCare
 
 Tous les changements notables de ce projet sont documentés dans ce fichier.
 
@@ -356,4 +356,4 @@ Ce projet utilise [SemVer](https://semver.org/) :
 
 **Dernière mise à jour :** 26 janvier 2026  
 **Version du document :** 1.0.0  
-**Auteur :** GitHub Copilot & Équipe Gestion Poste de Santé
+**Auteur :** GitHub Copilot & Équipe HealthCare

@@ -10,6 +10,7 @@ Controller : com.healthcenter.controller.MainMenuController
 <BorderPane xmlns="http://javafx.com/javafx/17" 
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.healthcenter.controller.MainMenuController"
+            stylesheets="@main-menu.css"
             prefHeight="750.0" 
             prefWidth="1200.0">
     
@@ -19,33 +20,38 @@ Controller : com.healthcenter.controller.MainMenuController
             <!-- Barre de menu -->
             <MenuBar style="-fx-background-color: #34495e;">
                 
-                <!-- Menu Fichier -->
-                <Menu text="Fichier" style="-fx-text-fill: white;">
-                    <MenuItem text="🚪 Quitter" onAction="#handleQuitter"/>
+                <!-- Menu Session -->
+                <Menu text="Session" style="-fx-text-fill: white;">
+                    <MenuItem text="Déconnexion" onAction="#handleDeconnexion"/>
                 </Menu>
                 
                 <!-- Menu Modules -->
                 <Menu text="Modules" style="-fx-text-fill: white;">
-                    <MenuItem text="👥 Patients" onAction="#handlePatients"/>
-                    <MenuItem text="🏥 Consultations" onAction="#handleConsultations"/>
-                    <MenuItem text="💊 Médicaments" onAction="#handleMedicaments"/>
-                    <MenuItem text="💉 Vaccinations" onAction="#handleVaccinations"/>
-                    <MenuItem text="👨‍⚕️ Personnel" onAction="#handlePersonnel"/>
+                    <MenuItem text="Patients" onAction="#handlePatients"/>
+                    <MenuItem text="Consultations" onAction="#handleConsultations"/>
+                    <MenuItem text="Médicaments" onAction="#handleMedicaments"/>
+                    <MenuItem text="Vaccinations" onAction="#handleVaccinations"/>
+                    <MenuItem text="Personnel" onAction="#handlePersonnel"/>
                     <SeparatorMenuItem/>
-                    <MenuItem text="📊 Statistiques" onAction="#handleStatistiques"/>
-                    <MenuItem text="📄 Rapports" onAction="#handleRapports"/>
+                    <MenuItem text="Statistiques" onAction="#handleStatistiques"/>
+                    <MenuItem text="Rapports" onAction="#handleRapports"/>
                 </Menu>
                 
                 <!-- Menu Aide -->
                 <Menu text="Aide" style="-fx-text-fill: white;">
-                    <MenuItem text="ℹ️ À propos" onAction="#handleAPropos"/>
+                    <MenuItem text="À propos" onAction="#handleAPropos"/>
                 </Menu>
             </MenuBar>
             
             <!-- Header avec titre -->
             <HBox style="-fx-background-color: #2c3e50; -fx-padding: 15;">
-                <Label text="🏥 Gestion Poste de Santé" 
+                <Label text="HealthCare" 
                        style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <HBox style="-fx-background-color: #ecf0f1; -fx-padding: 8 15 8 15;">
+                <Label fx:id="currentModuleLabel" text="Module : Patients"
+                       style="-fx-text-fill: #2c3e50; -fx-font-size: 14px; -fx-font-weight: bold;"/>
             </HBox>
         </VBox>
     </top>
@@ -56,7 +62,7 @@ Controller : com.healthcenter.controller.MainMenuController
             <!-- Le contenu des modules (patient-list.fxml, consultation-list.fxml, etc.) sera chargé ici dynamiquement -->
             <center>
                 <VBox alignment="CENTER" spacing="20" style="-fx-background-color: #ecf0f1; -fx-padding: 50;">
-                    <Label text="🏥 Bienvenue dans l'application de Gestion du Poste de Santé" 
+                    <Label text="Bienvenue dans l'application HealthCare" 
                            style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
                     
                     <Label text="Sélectionnez un module dans le menu ci-dessus pour commencer" 
@@ -91,11 +97,11 @@ Controller : com.healthcenter.controller.MainMenuController
     <!-- BOTTOM : Barre de statut -->
     <bottom>
         <HBox style="-fx-background-color: #34495e; -fx-padding: 10;" spacing="20">
-            <Label text="📅 2026" style="-fx-text-fill: white;"/>
+            <Label text="2026" style="-fx-text-fill: white;"/>
             <Separator orientation="VERTICAL"/>
-            <Label text="💻 Système de Gestion de Santé" style="-fx-text-fill: white;"/>
+            <Label text="Système de Gestion de Santé" style="-fx-text-fill: white;"/>
             <Separator orientation="VERTICAL"/>
-            <Label text="✨ Spring Boot + JavaFX" style="-fx-text-fill: white;"/>
+            <Label text="Spring Boot + JavaFX" style="-fx-text-fill: white;"/>
         </HBox>
     </bottom>
     

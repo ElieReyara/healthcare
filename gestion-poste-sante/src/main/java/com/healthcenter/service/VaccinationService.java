@@ -88,7 +88,7 @@ public class VaccinationService {
      */
     @Transactional(readOnly = true)
     public List<Vaccination> obtenirToutesVaccinations() {
-        return vaccinationRepository.findAll();
+        return vaccinationRepository.findAllWithRelations();
     }
     
     /**
@@ -111,7 +111,7 @@ public class VaccinationService {
      */
     @Transactional(readOnly = true)
     public List<Vaccination> obtenirVaccinationsParPatient(Long patientId) {
-        return vaccinationRepository.findByPatientIdOrderByDateAdministrationDesc(patientId);
+        return vaccinationRepository.findByPatientIdWithRelations(patientId);
     }
     
     /**
@@ -122,7 +122,7 @@ public class VaccinationService {
      */
     @Transactional(readOnly = true)
     public List<Vaccination> obtenirVaccinationsParVaccin(TypeVaccin vaccin) {
-        return vaccinationRepository.findByVaccin(vaccin);
+        return vaccinationRepository.findByVaccinWithRelations(vaccin);
     }
     
     /**

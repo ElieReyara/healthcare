@@ -572,7 +572,7 @@ mvn clean install
 
 ✅ **Application complète et prête pour déploiement production**
 - Authentification multi-utilisateurs sécurisée
-- Gestion complète poste de santé (8 modules)
+- Gestion complète HealthCare (8 modules)
 - Backups automatiques + restauration
 - Audit logs complet
 - Documentation installation complète

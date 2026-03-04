@@ -13,7 +13,7 @@
     
     <top>
         <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #2196F3; -fx-padding: 30;">
-            <Label text="🏥 Poste de Santé" textFill="white">
+            <Label text="HealthCare" textFill="white">
                 <font>
                     <Font name="System Bold" size="24"/>
                 </font>

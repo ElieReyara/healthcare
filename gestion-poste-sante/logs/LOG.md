@@ -1,4 +1,4 @@
-# LOG des modifications - Gestion Poste de Santé
+# LOG des modifications - HealthCare
 
 ---
 

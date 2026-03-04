@@ -2,9 +2,11 @@ package com.healthcenter.controller;
 
 import com.healthcenter.domain.entities.Consultation;
 import com.healthcenter.domain.entities.Patient;
+import com.healthcenter.domain.entities.Personnel;
 import com.healthcenter.dto.ConsultationDTO;
 import com.healthcenter.service.ConsultationService;
 import com.healthcenter.service.PatientService;
+import com.healthcenter.service.PersonnelService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,11 +39,15 @@ public class ConsultationFormController {
     
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private PersonnelService personnelService;
     
     // ========== COMPOSANTS FXML ==========
     
     @FXML private Label titleLabel;
     @FXML private ComboBox<Patient> patientCombo;
+    @FXML private ComboBox<Personnel> personnelCombo;
     @FXML private DatePicker datePicker;
     @FXML private TextField heureField;
     @FXML private TextArea symptomesArea;
@@ -54,6 +60,7 @@ public class ConsultationFormController {
     private Consultation consultationEnEdition;  // null si création, sinon modification
     private boolean savedSuccessfully = false;
     private ObservableList<Patient> patientsData = FXCollections.observableArrayList();
+    private ObservableList<Personnel> personnelsData = FXCollections.observableArrayList();
     
     // Formatter pour heure (HH:mm)
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
@@ -66,6 +73,7 @@ public class ConsultationFormController {
     @FXML
     public void initialize() {
         setupPatientComboBox();
+        setupPersonnelComboBox();
     }
     
     
@@ -110,6 +118,31 @@ public class ConsultationFormController {
             afficherErreur("Aucun patient enregistré. Créez d'abord un patient.");
         }
     }
+
+    private void setupPersonnelComboBox() {
+        List<Personnel> personnels = personnelService.obtenirPersonnelActif();
+        personnelsData.clear();
+        personnelsData.addAll(personnels);
+        personnelCombo.setItems(personnelsData);
+        personnelCombo.setConverter(new StringConverter<Personnel>() {
+            @Override
+            public String toString(Personnel personnel) {
+                if (personnel == null) return "";
+                String display = personnel.getNom() + " " + personnel.getPrenom();
+                if (personnel.getFonction() != null) {
+                    display += " (" + personnel.getFonction().name() + ")";
+                }
+                return display;
+            }
+            @Override
+            public Personnel fromString(String string) { return null; }
+        });
+
+        if (personnelsData.isEmpty()) {
+            personnelCombo.setDisable(true);
+            afficherErreur("Aucun personnel actif. Activez ou créez un personnel.");
+        }
+    }
     
     
     // ========== MODES INITIALISATION ==========
@@ -138,6 +171,11 @@ public class ConsultationFormController {
         
         // Pré-remplir patient
         patientCombo.setValue(consultation.getPatient());
+
+        // Pré-remplir personnel si présent
+        if (consultation.getPersonnel() != null) {
+            personnelCombo.setValue(consultation.getPersonnel());
+        }
         
         // Pré-remplir date + heure (extraits de LocalDateTime)
         LocalDateTime dateConsultation = consultation.getDateConsultation();
@@ -170,6 +208,7 @@ public class ConsultationFormController {
             // CRÉER DTO depuis formulaire
             ConsultationDTO dto = new ConsultationDTO();
             dto.setPatientId(patientCombo.getValue().getId());
+            dto.setPersonnelId(personnelCombo.getValue().getId());
             dto.setDateConsultation(construireLocalDateTime());
             dto.setSymptomes(symptomesArea.getText().trim());
             dto.setDiagnostic(diagnosticArea.getText().trim());
@@ -217,6 +256,13 @@ public class ConsultationFormController {
         if (patientCombo.getValue() == null) {
             afficherErreur("Veuillez sélectionner un patient");
             patientCombo.requestFocus();
+            return false;
+        }
+
+        // Personnel obligatoire
+        if (personnelCombo.getValue() == null) {
+            afficherErreur("Veuillez sélectionner le personnel affecté");
+            personnelCombo.requestFocus();
             return false;
         }
         

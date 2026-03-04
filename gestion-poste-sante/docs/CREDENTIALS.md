@@ -1,4 +1,4 @@
-# 🔐 Identifiants par Défaut - Gestion Poste de Santé
+# 🔐 Identifiants par Défaut - HealthCare
 
 ## ⚠️ IMPORTANT - Sécurité
 

@@ -23,6 +23,11 @@ public class ConsultationDTO {
      * Pas l'objet Patient complet pour éviter over-fetching.
      */
     private Long patientId;
+
+    /**
+     * ID du personnel médical affecté.
+     */
+    private Long personnelId;
     
     /**
      * Date et heure de la consultation.
@@ -98,6 +103,14 @@ public class ConsultationDTO {
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
     }
+
+    public Long getPersonnelId() {
+        return personnelId;
+    }
+
+    public void setPersonnelId(Long personnelId) {
+        this.personnelId = personnelId;
+    }
     
     public LocalDateTime getDateConsultation() {
         return dateConsultation;
@@ -141,6 +154,7 @@ public class ConsultationDTO {
     public String toString() {
         return "ConsultationDTO{" +
                 "patientId=" + patientId +
+            ", personnelId=" + personnelId +
                 ", dateConsultation=" + dateConsultation +
                 ", symptomes='" + symptomes + '\'' +
                 ", diagnostic='" + diagnostic + '\'' +

@@ -57,7 +57,7 @@ public class App extends Application {
             Parent loginRoot = loader.load();
             
             Stage loginStage = new Stage();
-            loginStage.setTitle("Connexion - Poste de Santé");
+            loginStage.setTitle("Connexion - HealthCare");
             loginStage.setScene(new Scene(loginRoot, 400, 350));
             loginStage.setResizable(false);
             loginStage.initModality(Modality.APPLICATION_MODAL);
@@ -98,7 +98,7 @@ public class App extends Application {
             Parent root = loader.load();
             
             Scene scene = new Scene(root, 1200, 750);
-            primaryStage.setTitle("🏥 Gestion Poste de Santé");
+            primaryStage.setTitle("HealthCare");
             primaryStage.setScene(scene);
             primaryStage.show();
             

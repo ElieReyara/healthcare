@@ -2,9 +2,11 @@ package com.healthcenter.service;
 
 import com.healthcenter.domain.entities.Consultation;
 import com.healthcenter.domain.entities.Patient;
+import com.healthcenter.domain.entities.Personnel;
 import com.healthcenter.dto.ConsultationDTO;
 import com.healthcenter.repository.ConsultationRepository;
 import com.healthcenter.repository.PatientRepository;
+import com.healthcenter.repository.PersonnelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,9 @@ public class ConsultationService {
     
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private PersonnelRepository personnelRepository;
     
     
     // ========== CREATE ==========
@@ -63,9 +68,11 @@ public class ConsultationService {
             .orElseThrow(() -> new IllegalArgumentException(
                 "Patient avec ID " + dto.getPatientId() + " introuvable"
             ));
+
+        Personnel personnel = getPersonnelOrThrow(dto.getPersonnelId());
         
         // CONVERSION DTO → Entity
-        Consultation consultation = mapToEntity(dto, patient);
+        Consultation consultation = mapToEntity(dto, patient, personnel);
         
         // SAUVEGARDE (JPA génère : INSERT INTO consultations ...)
         return consultationRepository.save(consultation);
@@ -80,7 +87,7 @@ public class ConsultationService {
      */
     @Transactional(readOnly = true)
     public List<Consultation> obtenirToutesLesConsultations() {
-        return consultationRepository.findAll();
+        return consultationRepository.findAllWithRelations();
     }
     
     /**
@@ -102,7 +109,7 @@ public class ConsultationService {
      */
     @Transactional(readOnly = true)
     public List<Consultation> obtenirConsultationsParPatient(Long patientId) {
-        return consultationRepository.findByPatientIdOrderByDateConsultationDesc(patientId);
+        return consultationRepository.findByPatientIdWithRelations(patientId);
     }
     
     /**
@@ -153,9 +160,12 @@ public class ConsultationService {
             .orElseThrow(() -> new IllegalArgumentException(
                 "Patient avec ID " + dto.getPatientId() + " introuvable"
             ));
+
+        Personnel personnel = getPersonnelOrThrow(dto.getPersonnelId());
         
         // Mise à jour des champs
         consultation.setPatient(patient);
+        consultation.setPersonnel(personnel);
         consultation.setDateConsultation(dto.getDateConsultation());
         consultation.setSymptomes(dto.getSymptomes());
         consultation.setDiagnostic(dto.getDiagnostic());
@@ -239,6 +249,11 @@ public class ConsultationService {
         if (dto.getDateConsultation() == null) {
             throw new IllegalArgumentException("La date de consultation est obligatoire");
         }
+
+        // Personnel obligatoire
+        if (dto.getPersonnelId() == null) {
+            throw new IllegalArgumentException("Le personnel affecté est obligatoire");
+        }
         
         // DateConsultation ne peut pas être dans le futur
         if (dto.getDateConsultation().isAfter(LocalDateTime.now())) {
@@ -263,16 +278,28 @@ public class ConsultationService {
      * 
      * @param dto DTO consultation
      * @param patient Entity Patient (déjà récupérée depuis DB)
+     * @param personnel Entity Personnel (déjà récupérée depuis DB)
      * @return Entity Consultation
      */
-    private Consultation mapToEntity(ConsultationDTO dto, Patient patient) {
+    private Consultation mapToEntity(ConsultationDTO dto, Patient patient, Personnel personnel) {
         Consultation consultation = new Consultation();
         consultation.setPatient(patient);
+        consultation.setPersonnel(personnel);
         consultation.setDateConsultation(dto.getDateConsultation());
         consultation.setSymptomes(dto.getSymptomes());
         consultation.setDiagnostic(dto.getDiagnostic());
         consultation.setPrescription(dto.getPrescription());
         return consultation;
+    }
+
+    private Personnel getPersonnelOrThrow(Long personnelId) {
+        if (personnelId == null) {
+            throw new IllegalArgumentException("Le personnel affecté est obligatoire");
+        }
+        return personnelRepository.findById(personnelId)
+            .orElseThrow(() -> new IllegalArgumentException(
+                "Personnel avec ID " + personnelId + " introuvable"
+            ));
     }
     
     /**

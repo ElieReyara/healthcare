@@ -76,6 +76,14 @@ public class VaccinationFormController {
                     return null;
                 }
             });
+
+            // ⚠️ Si aucun patient : désactiver formulaire
+            if (patients.isEmpty()) {
+                patientCombo.setDisable(true);
+                errorLabel.setText("Aucun patient enregistré. Créez d'abord un patient.");
+                errorLabel.setStyle("-fx-text-fill: red;");
+                errorLabel.setVisible(true);
+            }
             
             // Configuration ComboBox Vaccins
             vaccinCombo.setItems(FXCollections.observableArrayList(TypeVaccin.values()));

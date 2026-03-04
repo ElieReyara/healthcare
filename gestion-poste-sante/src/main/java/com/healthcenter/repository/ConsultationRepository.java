@@ -25,6 +25,19 @@ import java.util.List;
  */
 @Repository  // ← Spring détecte et crée l'implémentation automatiquement
 public interface ConsultationRepository extends JpaRepository<Consultation, Long> {
+
+    @Query("SELECT c FROM Consultation c " +
+        "LEFT JOIN FETCH c.patient " +
+        "LEFT JOIN FETCH c.personnel " +
+        "ORDER BY c.dateConsultation DESC")
+    List<Consultation> findAllWithRelations();
+
+    @Query("SELECT c FROM Consultation c " +
+        "LEFT JOIN FETCH c.patient " +
+        "LEFT JOIN FETCH c.personnel " +
+        "WHERE c.patient.id = :patientId " +
+        "ORDER BY c.dateConsultation DESC")
+    List<Consultation> findByPatientIdWithRelations(@Param("patientId") Long patientId);
     
     /**
      * Méthode de requête dérivée (Query Method).

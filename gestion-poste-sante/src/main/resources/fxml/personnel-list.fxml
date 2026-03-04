@@ -15,12 +15,7 @@
             <padding>
                 <Insets top="15" right="15" bottom="10" left="15"/>
             </padding>
-            
-            <!-- Titre -->
-            <HBox alignment="CENTER_LEFT">
-                <Label text="👥 PERSONNEL MÉDICAL" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-            </HBox>
-            
+
             <!-- Ligne Filtres -->
             <HBox spacing="15" alignment="CENTER_LEFT">
                 <padding>

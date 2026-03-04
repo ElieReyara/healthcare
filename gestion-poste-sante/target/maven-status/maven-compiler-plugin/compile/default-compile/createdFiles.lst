@@ -21,6 +21,7 @@ com\healthcenter\domain\enums\PeriodeStatistique.class
 com\healthcenter\domain\entities\Personnel.class
 com\healthcenter\controller\PersonnelFormController$1.class
 com\healthcenter\controller\PersonnelDetailsController.class
+com\healthcenter\controller\ConsultationFormController$2.class
 com\healthcenter\controller\ConsultationController$2.class
 com\healthcenter\service\StatistiqueService.class
 com\healthcenter\service\RapportService$1.class

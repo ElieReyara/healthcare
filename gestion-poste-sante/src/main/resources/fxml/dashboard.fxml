@@ -17,10 +17,10 @@
     
     <!-- EN-TÊTE -->
     <top>
-        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 15; -fx-background-color: #2c3e50;">
-            <Label text="📊 TABLEAU DE BORD" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 15; -fx-background-color: #ecf0f1;">
+            <Label text="TABLEAU DE BORD" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="btnActualiser" text="🔄 Actualiser" onAction="#handleActualiser"
+            <Button fx:id="btnActualiser" text="Actualiser" onAction="#handleActualiser"
                     style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
             <Button fx:id="btnGenererRapport" text="📄 Générer Rapport" onAction="#handleGenererRapport"
                     style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20;"/>
