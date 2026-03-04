@@ -23,14 +23,11 @@
         <Label text="Mot de passe *" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
         <PasswordField fx:id="passwordField" promptText="minimum 6 caractères" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Nom *" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <TextField fx:id="nomField" promptText="Nom" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label text="Personnel *" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="personnelCombo" promptText="Sélectionner un personnel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-        <Label text="Prénom *" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <TextField fx:id="prenomField" promptText="Prénom" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-        <Label text="Rôle *" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="roleCombo" promptText="Choisir un rôle" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <Label text="Rôle *" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="roleCombo" promptText="Choisir un rôle" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
     </GridPane>
 
     <Label fx:id="errorLabel" visible="false" wrapText="true" style="-fx-text-fill: #c0392b; -fx-font-weight: bold;"/>

@@ -92,6 +92,7 @@ com\healthcenter\controller\ConsultationFormController$1.class
 com\healthcenter\controller\PersonnelController$1.class
 com\healthcenter\controller\VaccinationFormController$2.class
 com\healthcenter\service\MouvementStockService.class
+com\healthcenter\controller\UtilisateurFormController$1.class
 com\healthcenter\domain\entities\MouvementStock.class
 com\healthcenter\domain\enums\TypeVaccin.class
 com\healthcenter\dto\DashboardStats.class

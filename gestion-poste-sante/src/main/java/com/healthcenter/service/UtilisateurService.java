@@ -1,7 +1,9 @@
 package com.healthcenter.service;
 
 import com.healthcenter.domain.entities.Utilisateur;
+import com.healthcenter.domain.entities.Personnel;
 import com.healthcenter.domain.enums.RoleUtilisateur;
+import com.healthcenter.repository.PersonnelRepository;
 import com.healthcenter.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,9 @@ public class UtilisateurService {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PersonnelRepository personnelRepository;
     
     /**
      * Crée un nouvel utilisateur avec mot de passe hashé
@@ -43,6 +48,53 @@ public class UtilisateurService {
         utilisateur.setActif(true);
         utilisateur.setDateCreation(LocalDateTime.now());
         
+        return utilisateurRepository.save(utilisateur);
+    }
+
+    /**
+     * Crée un utilisateur lié à un personnel existant (obligatoire).
+     */
+    @Transactional
+    public Utilisateur creerUtilisateurPourPersonnel(String username, String password, Long personnelId, RoleUtilisateur role) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom d'utilisateur est obligatoire");
+        }
+        if (password == null || password.trim().length() < 6) {
+            throw new IllegalArgumentException("Le mot de passe doit contenir au moins 6 caractères");
+        }
+        if (personnelId == null) {
+            throw new IllegalArgumentException("Le personnel est obligatoire");
+        }
+        if (role == null) {
+            throw new IllegalArgumentException("Le rôle est obligatoire");
+        }
+
+        String normalizedUsername = username.trim();
+        if (utilisateurRepository.findByUsername(normalizedUsername).isPresent()) {
+            throw new IllegalArgumentException("Le nom d'utilisateur existe déjà");
+        }
+
+        Personnel personnel = personnelRepository.findById(personnelId)
+            .orElseThrow(() -> new IllegalArgumentException("Personnel introuvable"));
+
+        if (Boolean.FALSE.equals(personnel.getActif())) {
+            throw new IllegalArgumentException("Impossible de créer un compte pour un personnel inactif");
+        }
+
+        if (utilisateurRepository.existsByPersonnelId(personnelId)) {
+            throw new IllegalArgumentException("Ce personnel possède déjà un compte utilisateur");
+        }
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setUsername(normalizedUsername);
+        utilisateur.setPassword(passwordEncoder.encode(password));
+        utilisateur.setNom(personnel.getNom());
+        utilisateur.setPrenom(personnel.getPrenom());
+        utilisateur.setRole(role);
+        utilisateur.setActif(true);
+        utilisateur.setDateCreation(LocalDateTime.now());
+        utilisateur.setPersonnel(personnel);
+
         return utilisateurRepository.save(utilisateur);
     }
     

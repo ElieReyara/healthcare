@@ -32,6 +32,7 @@ public class UtilisateurController {
 
     @FXML private TableView<Utilisateur> utilisateurTable;
     @FXML private TableColumn<Utilisateur, String> colUsername;
+    @FXML private TableColumn<Utilisateur, String> colMatricule;
     @FXML private TableColumn<Utilisateur, String> colNomComplet;
     @FXML private TableColumn<Utilisateur, String> colRole;
     @FXML private TableColumn<Utilisateur, String> colActif;
@@ -50,6 +51,11 @@ public class UtilisateurController {
         }
 
         colUsername.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getUsername()));
+        colMatricule.setCellValueFactory(cell -> new SimpleStringProperty(
+            cell.getValue().getPersonnel() != null && cell.getValue().getPersonnel().getNumeroMatricule() != null
+                ? cell.getValue().getPersonnel().getNumeroMatricule()
+                : "-"
+        ));
         colNomComplet.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getNomComplet()));
         colRole.setCellValueFactory(cell -> new SimpleStringProperty(
                 cell.getValue().getRole() != null ? cell.getValue().getRole().getLibelle() : ""

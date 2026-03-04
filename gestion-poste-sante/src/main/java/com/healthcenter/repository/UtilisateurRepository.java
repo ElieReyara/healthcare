@@ -33,4 +33,9 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
      * Liste les utilisateurs par rôle
      */
     List<Utilisateur> findByRole(RoleUtilisateur role);
+
+    /**
+     * Vérifie si un compte utilisateur existe déjà pour un personnel.
+     */
+    boolean existsByPersonnelId(Long personnelId);
 }
