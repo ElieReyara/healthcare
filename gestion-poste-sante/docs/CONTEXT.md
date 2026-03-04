@@ -5,11 +5,10 @@
 ```markdown
 # CONTEXT – Gestion Poste de Santé Communautaire
 
-**Dernière mise à jour :** 2026-01-26 23:00  
-**Version :** 1.0.0 - PRODUCTION READY 🚀  
-**Modules complétés :** Patient (100%), Consultations (100%), Médicaments + Stock (100%), Vaccinations + Calendrier (100%), Personnel (100%), Statistiques & Rapports (100%), Authentification & Sécurité (100%), Backup & Production (100%)  
-**Module en cours :** -  
-**Modules restants :** Aucun - Application complète et prête pour la production
+**Dernière mise à jour :** 2026-03-04  
+**Version :** 1.0.0 (projet desktop JavaFX + Spring Boot)  
+**Modules implémentés :** Patient, Consultations, Médicaments/Stock, Vaccinations/Calendrier, Personnel, Statistiques/Rapports, Authentification  
+**Points à vérifier :** État réel des modules Maladie/Audit/Backup dans le code avant communication externe
 
 ---
 

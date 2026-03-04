@@ -2,7 +2,7 @@
 
 ## ⚠️ IMPORTANT - Sécurité
 
-**Ce fichier contient les identifiants par défaut de l'application.**
+**Ce fichier contient les identifiants par défaut de l'application (desktop JavaFX + Spring Boot).**
 
 - **NE PAS PARTAGER** ce fichier publiquement
 - **CHANGER** tous les mots de passe après la première connexion
@@ -21,16 +21,16 @@
 
 ### Permissions
 
-✅ **Accès complet à tous les modules:**
-- Patients (CRUD complet)
-- Consultations (toutes)
+✅ **Accès complet aux modules disponibles dans l'application actuelle :**
+- Patients
+- Consultations
 - Médicaments & Stock
 - Vaccinations & Calendrier
-- Personnel (gestion complète)
+- Personnel
 - Statistiques & Rapports
-- **Gestion des utilisateurs**
-- **Backup & Restauration**
-- **Configuration système**
+- Gestion des utilisateurs
+
+💡 Certaines fonctionnalités documentées (ex. backup/restauration, audit étendu) peuvent ne pas être implémentées dans cette version desktop. Vérifiez le code avant communication externe.
 
 ### Actions Requises
 
@@ -388,14 +388,6 @@ ORDER BY a.date_action DESC;
    - Analyser les logs du serveur
    - Identifier la source de la compromission
    - Corriger la vulnérabilité
-
----
-
-## 📞 Contact en Cas de Problème de Sécurité
-
-**Responsable Sécurité:** (À compléter)  
-**Email:** (À compléter)  
-**Téléphone:** (À compléter)
 
 ---
 

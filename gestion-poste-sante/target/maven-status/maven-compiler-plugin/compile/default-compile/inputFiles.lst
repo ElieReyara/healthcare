@@ -14,6 +14,7 @@ C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\mai
 C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\domain\enums\RoleUtilisateur.java
 C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\controller\ConsultationFormController.java
 C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\service\UtilisateurService.java
+C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\config\InitialUserConfig.java
 C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\repository\UtilisateurRepository.java
 C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\service\ConsultationService.java
 C:\Users\Alladoum\Desktop\DocPerso\Cours\JavaProject\gestion-poste-sante\src\main\java\com\healthcenter\controller\ConsultationController.java

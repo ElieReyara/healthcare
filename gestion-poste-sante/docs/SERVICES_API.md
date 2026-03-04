@@ -1,154 +1,59 @@
-# 📚 API des Services - Référence Rapide
+# 📚 API des Services - Référence rapide (synchronisée avec le code)
 
-> **Utilité:** Référence EXACTE des méthodes des services pour éviter les erreurs de nommage  
-> **Quand l'utiliser:** AVANT de générer du code qui appelle des services
+> Source de vérité : les classes dans `src/main/java/com/healthcenter/service`. Cette page donne les signatures actuelles essentielles et renvoie vers les fichiers.
 
----
-
-## 👥 PatientService
+## PatientService
+Fichier : `service/PatientService.java`
 
 ```java
-// Récupération
-List<Patient> obtenirTousLesPatients()                    // ⚠️ Noter "TousLES" pas "Tout"
+// Création
+Patient creerPatient(PatientDTO dto)
+
+// Lecture
+List<Patient> obtenirTousLesPatients()
 Optional<Patient> obtenirPatientParId(Long id)
-List<Patient> rechercherPatients(String critere)
+List<Patient> rechercherParNom(String nom)
+Optional<Patient> rechercherParNumeroCarnet(String numeroCarnet)
 
-// Modifications
-Patient ajouterPatient(Patient patient)
-Patient modifierPatient(Patient patient)
+// Mise à jour / suppression
+Patient mettreAJourPatient(Long id, PatientDTO dto)
 void supprimerPatient(Long id)
+long compterParSexe(Sexe sexe)
 ```
 
----
+## ConsultationService
+Fichier : `service/ConsultationService.java`
 
-## 🏥 ConsultationService
+- Vérifier dans le code les méthodes exactes (obtenir toutes, par patient, création/mise à jour/suppression). Les signatures font foi.
 
-```java
-// Récupération
-List<Consultation> obtenirToutesLesConsultations()        // ⚠️ "ToutesLES" pas "Tout"
-Optional<Consultation> obtenirConsultationParId(Long id)
-List<Consultation> obtenirConsultationsParPatient(Long patientId)
+## MedicamentService / MouvementStockService
+Fichiers : `service/MedicamentService.java`, `service/MouvementStockService.java`
 
-// Modifications
-Consultation ajouterConsultation(Consultation consultation)
-Consultation modifierConsultation(Consultation consultation)
-void supprimerConsultation(Long id)
-```
+- Gestion des médicaments et du stock (création, modification, suppression, mouvement d’entrée/sortie). Se référer aux méthodes `updateStock` et aux DTO utilisés dans ces classes.
 
----
+## VaccinationService / CalendrierVaccinalService
+Fichiers : `service/VaccinationService.java`, `service/CalendrierVaccinalService.java`
 
-## 💊 MedicamentService
+- Rappels, dates d’administration, récupération par patient. Vérifier les méthodes pour les signatures exactes.
 
-```java
-// Récupération
-List<Medicament> obtenirTousMedicaments()                 // ⚠️ "Tous" pas "TousLes"
-Optional<Medicament> obtenirMedicamentParId(Long id)
-List<Medicament> obtenirMedicamentsEnRupture()           // Stock <= seuilAlerte
+## PersonnelService / DisponibilitePersonnelService
+Fichiers : `service/PersonnelService.java`, `service/DisponibilitePersonnelService.java`
 
-// Modifications
-Medicament ajouterMedicament(Medicament medicament)
-Medicament modifierMedicament(Medicament medicament)
-void supprimerMedicament(Long id)
-void updateStock(Long id, Integer nouvelleQuantite)      // ⚠️ Méthode spéciale stock
-```
+- Méthodes de base (obtenir tout le personnel, personnel actif, par id) et statistiques (top personnel actif avec paramètres début/fin/limite). Les méthodes détaillées sont dans le code.
 
----
+## StatistiqueService / RapportService / ExportService
+Fichiers : `service/StatistiqueService.java`, `service/RapportService.java`, `service/ExportService.java`
 
-## 💉 VaccinationService
+- Génération de statistiques, rapports PDF/Excel, exports. Les signatures évoluent : consulter les classes pour la liste à jour.
 
-```java
-// Récupération
-List<Vaccination> obtenirToutesVaccinations()             // ⚠️ "Toutes" pas "ToutesLes"
-Optional<Vaccination> obtenirVaccinationParId(Long id)
-List<Vaccination> obtenirVaccinationsParPatient(Long patientId)
-List<Vaccination> obtenirVaccinationsAVenir()            // Rappels à venir
+## UtilisateurService / AuditService / BackupService
+Fichiers : `service/UtilisateurService.java`, `service/AuditService.java`, `service/BackupService.java`
 
-// Modifications
-Vaccination ajouterVaccination(Vaccination vaccination)
-Vaccination modifierVaccination(Vaccination vaccination)
-void supprimerVaccination(Long id)
-```
+- Gestion des utilisateurs, audit et sauvegardes. Vérifier directement dans les classes pour les méthodes disponibles.
 
----
+## Rappel
 
-## 👨‍⚕️ PersonnelService
+- En cas de doute, ouvrez la classe concernée et utilisez l’autocomplétion IDE.
+- Si une méthode change, mettez cette page à jour en copiant les signatures depuis la classe.
 
-```java
-// Récupération
-List<Personnel> obtenirToutPersonnel()                    // ⚠️ "Tout" pas "TousLes"
-List<Personnel> obtenirPersonnelActif()                   // Seulement les actifs
-Optional<Personnel> obtenirPersonnelParId(Long id)
-
-// Statistiques - ⚠️ IMPORTANT: Signature avec 3 paramètres
-List<PersonnelPerformanceDTO> obtenirTopPersonnelActif(LocalDate debut, LocalDate fin, int limite)
-
-// Modifications
-Personnel ajouterPersonnel(Personnel personnel)
-Personnel modifierPersonnel(Personnel personnel)
-void supprimerPersonnel(Long id)
-```
-
----
-
-## 📊 StatistiqueService
-
-```java
-// Dashboard
-DashboardStats obtenirDashboardStats()
-
-// Patients
-List<RepartitionData> obtenirRepartitionPatientsSexe()
-List<RepartitionData> obtenirRepartitionPatientsAge()
-StatistiquesPatients obtenirStatistiquesPatients(LocalDate debut, LocalDate fin)
-
-// Consultations
-List<EvolutionData> obtenirEvolutionConsultations(LocalDate debut, LocalDate fin, String granularite)
-List<RepartitionData> obtenirMaladiesFrequentes(LocalDate debut, LocalDate fin, int limite)
-StatistiquesConsultations obtenirStatistiquesConsultations(LocalDate debut, LocalDate fin)
-
-// Autres
-StatistiquesVaccinations obtenirStatistiquesVaccinations(LocalDate debut, LocalDate fin)
-StatistiquesMedicaments obtenirStatistiquesMedicaments()
-StatistiquesPersonnel obtenirStatistiquesPersonnel(LocalDate debut, LocalDate fin)
-```
-
----
-
-## 📄 RapportService
-
-```java
-// Génération PDF
-File genererRapportPDF(TypeRapport type, LocalDate debut, LocalDate fin, String cheminSortie)
-
-// Génération Excel
-File genererRapportExcel(TypeRapport type, LocalDate debut, LocalDate fin, String cheminSortie)
-
-// Rapports mensuels
-File genererRapportMensuel(int mois, int annee, FormatRapport format)
-
-// Contenu
-Map<String, Object> genererContenuRapportActiviteGlobale(LocalDate debut, LocalDate fin)
-Map<String, Object> genererContenuRapportConsultations(LocalDate debut, LocalDate fin)
-```
-
----
-
-## ⚠️ PIÈGES COURANTS À ÉVITER
-
-| ❌ ERREUR | ✅ CORRECT | Commentaire |
-|----------|-----------|-------------|
-| `obtenirToutPatients()` | `obtenirTousLesPatients()` | "TousLES" avec majuscule L |
-| `obtenirToutConsultations()` | `obtenirToutesLesConsultations()` | "ToutesLES" féminin |
-| `obtenirToutVaccinations()` | `obtenirToutesVaccinations()` | "Toutes" sans "Les" |
-| `obtenirTousLesMedicaments()` | `obtenirTousMedicaments()` | "Tous" sans "Les" |
-| `obtenirTopPersonnelActif(10)` | `obtenirTopPersonnelActif(debut, fin, 10)` | 3 params obligatoires |
-
----
-
-## 📖 Comment Utiliser ce Document
-
-1. **Avant de coder:** Consulte ce fichier pour les noms exacts
-2. **En cas de doute:** Vérifie avec `grep_search` dans le service concerné
-3. **Pour les nouveaux services:** Mets à jour ce fichier avec les nouvelles méthodes
-
-**Dernière mise à jour:** 26 janvier 2026
+**Dernière mise à jour :** 2026-03-04
